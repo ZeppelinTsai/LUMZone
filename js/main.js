@@ -326,17 +326,24 @@ async function sendMessage() {
 
     let aiText = data.answer || "Sorry, I could not retrieve an answer.";
 
-    const hasSources = (data.provided_sources || []).length > 0;
+    const providedSources = data.provided_sources || data.sources || [];
+
+    const hasSources = providedSources.length > 0;
     const hasSrcTag = /\{src:\[[^\]]+\]\}/.test(aiText);
 
     if (hasSources && !hasSrcTag) {
-      const fallbackSrcTags = data.provided_sources
+      const fallbackSrcTags = providedSources
         .slice(0, 5)
         .map((s) => s.sid)
         .join(",");
 
       aiText += `\n\nSources {src:[${fallbackSrcTags}]}`;
     }
+
+    const srcMap = {};
+    providedSources.forEach((s) => {
+      srcMap[s.sid] = s;
+    });
 
     const srcMap = {};
     (data.provided_sources || []).forEach((s) => {
