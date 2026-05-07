@@ -219,6 +219,26 @@
         background: rgba(255, 250, 243, 0.6);
       }
 
+      .powered-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 30px;
+        margin-top: 28px;
+        padding: 6px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 250, 243, 0.72);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .powered-badge i {
+        color: var(--accent);
+        font-size: 13px;
+      }
+
       @media (max-width: 760px) {
         .page-wrap {
           padding: 24px 16px 48px;
@@ -274,6 +294,11 @@
           <div class="loading-card">Loading articles...</div>
         </div>
       </div>
+
+      <div class="powered-badge">
+        <i class="bi bi-stars"></i>
+        Powered by LUMZone AI
+      </div>
     </div>
 
     <script>
@@ -294,8 +319,11 @@
           document.getElementById("articleCount").textContent = articles.length;
 
           grid.innerHTML = articles
-            .map(
-              (a) => `
+            .map((a) => {
+              const articlePath = a.url.replace(/^\.\/pages\//, "");
+              const articleUrl = `${base}pages/articles/${articlePath}`;
+
+              return `
             <div class="col-lg-6">
               <div class="article-card">
                 <div class="article-tag">${a.tag}</div>
@@ -308,13 +336,13 @@
                   ${a.description}
                 </p>
 
-                <a href="${a.url}" class="article-link">
+                <a href="${articleUrl}" class="article-link">
                   Read Research <i class="bi bi-arrow-right"></i>
                 </a>
               </div>
             </div>
-          `,
-            )
+          `;
+            })
             .join("");
         } catch (err) {
           console.error(err);

@@ -1,6 +1,22 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What are the setback requirements for a detached ADU in San Diego?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "San Diego ADU setbacks depend on whether the project is a conversion, addition, or new detached structure, the front and street side yard rules, height, fire hazard conditions, and building-code requirements."
+            }
+          }
+        ]
+      }
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -15,135 +31,11 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
       rel="stylesheet"
     />
-
-    <style>
-      body {
-        background: #0b1020;
-        color: #f5f7ff;
-        font-family: Inter, system-ui, sans-serif;
-      }
-
-      .page-wrap {
-        max-width: 900px;
-        margin: auto;
-        padding: 72px 20px;
-      }
-
-      .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 42px;
-        color: rgba(255, 255, 255, 0.7);
-        text-decoration: none;
-      }
-
-      .back-link:hover {
-        color: white;
-      }
-
-      .tag {
-        display: inline-block;
-        padding: 7px 13px;
-        border-radius: 999px;
-        background: rgba(95, 140, 255, 0.15);
-        color: #9bc2ff;
-        font-size: 13px;
-        margin-bottom: 18px;
-      }
-
-      h1 {
-        font-size: clamp(36px, 6vw, 58px);
-        font-weight: 800;
-        line-height: 1.08;
-        margin-bottom: 22px;
-      }
-
-      .lead-text {
-        color: rgba(255, 255, 255, 0.74);
-        font-size: 19px;
-        line-height: 1.9;
-        margin-bottom: 44px;
-      }
-
-      .article-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 24px;
-        padding: 30px;
-        margin-bottom: 24px;
-      }
-
-      h2 {
-        font-size: 28px;
-        font-weight: 750;
-        margin-bottom: 18px;
-      }
-
-      h3 {
-        font-size: 21px;
-        font-weight: 700;
-        margin-top: 26px;
-        margin-bottom: 12px;
-      }
-
-      p,
-      li {
-        color: rgba(255, 255, 255, 0.76);
-        line-height: 1.85;
-      }
-
-      strong {
-        color: #ffffff;
-      }
-
-      .note {
-        border-left: 4px solid #6be6ff;
-        padding: 14px 18px;
-        background: rgba(107, 230, 255, 0.08);
-        border-radius: 12px;
-        color: rgba(255, 255, 255, 0.82);
-      }
-
-      .source-box {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 18px;
-        padding: 18px;
-        margin-top: 16px;
-      }
-
-      .cta-box {
-        background: linear-gradient(
-          135deg,
-          rgba(95, 140, 255, 0.18),
-          rgba(91, 255, 220, 0.08)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 26px;
-        padding: 34px;
-        margin-top: 38px;
-      }
-
-      .btn-main {
-        background: linear-gradient(135deg, #5f8cff, #6be6ff);
-        border: none;
-        color: white;
-        padding: 13px 24px;
-        border-radius: 14px;
-        font-weight: 700;
-      }
-
-      .small-muted {
-        color: rgba(255, 255, 255, 0.48);
-        font-size: 14px;
-      }
-    </style>
+    <link rel="stylesheet" href="./article-style.css" />
   </head>
 
   <body>
@@ -168,79 +60,88 @@
 
         <p>
           In San Diego, detached ADUs are generally allowed, but setback rules
-          depend on the ADU’s height, location, zoning context, and whether the
-          property is in a fire hazard or overlay area.
+          depend on the ADU's height, whether it is new construction or a
+          conversion, the property's zoning context, and whether the site is in
+          a fire hazard, coastal, brush management, or other overlay area.
         </p>
 
         <p>
-          For many ADUs, the most important questions are whether the unit is
-          <strong>16 feet or less in height</strong>, whether it is located near
-          residential property lines, and whether the property falls inside a
-          <strong>High or Very High Fire Hazard Severity Zone</strong>.
+          The most important early questions are whether the unit is
+          <strong>16 feet or less in height</strong>, whether the project is
+          near residential property lines, and whether building or fire-code
+          requirements require more clearance than zoning setbacks alone.
         </p>
       </section>
 
       <section class="article-card">
         <h2>Key Setback Concepts</h2>
 
-        <h3>1. Front Yard and Street Side Yard</h3>
+        <h3>Front Yard and Street Side Yard</h3>
         <p>
-          ADUs may need to follow the front yard or street side yard setback
-          rules of the base zone. In some cases, smaller ADUs may be allowed to
-          encroach into these areas, but the details depend on the applicable
-          local rules.
+          New ADU structures generally need to observe the front yard setback of
+          the zone. Street side yard setbacks may follow the zone rule or a
+          four-foot minimum, whichever is less, depending on the project type
+          and applicable San Diego rules.
         </p>
 
-        <h3>2. Interior Side Yard and Rear Yard</h3>
+        <h3>Interior Side Yard and Rear Yard</h3>
         <p>
-          For ADUs that are <strong>16 feet or less in height</strong>, San
-          Diego rules may allow reduced or no minimum interior side and rear
-          yard setbacks, subject to building and fire safety requirements.
+          San Diego guidance allows ADUs to encroach into side and rear setbacks
+          in many cases, including up to the property line, unless building-code
+          requirements such as fire separation, opening protection, allowable
+          height, and allowable area require more distance.
         </p>
 
         <p>
-          For ADUs that are <strong>over 16 feet tall</strong> or multi-story,
-          additional setback requirements may apply, commonly including a
-          minimum setback when adjacent to residentially zoned property or
-          residential uses.
+          If an ADU is over <strong>16 feet tall</strong> and the side or rear
+          property line abuts residentially zoned or exclusively residential
+          uses, a minimum four-foot interior side and rear setback, or the zone
+          setback if less, may apply.
         </p>
 
-        <h3>3. Fire Hazard Areas</h3>
+        <h3>Fire Hazard and Brush Management Areas</h3>
         <p>
-          If the property is located in a High or Very High Fire Hazard Severity
-          Zone, additional defensible space or setback requirements may apply.
-          This is especially important for detached ADUs near native or
-          naturalized vegetation.
+          In a Very High Fire Hazard Severity Zone, San Diego guidance requires
+          minimum four-foot interior side and rear setbacks regardless of
+          structure height. The Fire Code Official may require greater setbacks
+          where needed, and brush management zones can add another layer of
+          review.
         </p>
+      </section>
+
+      <section class="article-card">
+        <h2>Conversions and Rebuilds</h2>
+
+        <p>
+          ADUs created within existing structures can often keep the existing
+          structure's setbacks. If an existing structure is demolished and
+          rebuilt as an ADU in the same location and to the same dimensions, the
+          original setbacks may also continue to apply.
+        </p>
+
+        <div class="note">
+          Existing-structure rules can be very useful, but they depend on the
+          prior structure being legally established and on the replacement work
+          matching the required location and dimensions.
+        </div>
       </section>
 
       <section class="article-card">
         <h2>Practical Summary</h2>
 
         <ul>
-          <li>
-            A detached ADU may be possible on a San Diego single-family lot.
-          </li>
-          <li>
-            ADUs 16 feet or less may have more flexible side and rear setback
-            treatment.
-          </li>
-          <li>
-            Taller or two-story ADUs may trigger stricter setback requirements.
-          </li>
-          <li>
-            Fire hazard zones and overlay districts can change the analysis.
-          </li>
-          <li>
-            Building code and fire safety rules may require more clearance than
-            zoning rules alone suggest.
-          </li>
+          <li>A detached ADU may be possible on many San Diego residential lots.</li>
+          <li>ADUs 16 feet or less often have more flexible side and rear setback treatment.</li>
+          <li>Taller or two-story ADUs may trigger stricter side and rear setbacks.</li>
+          <li>Very High Fire Hazard Severity Zones and brush management areas can change the analysis.</li>
+          <li>Exterior stairs, decks, and balconies may need to conform to base zone setbacks.</li>
+          <li>Building code and fire safety rules may require more clearance than zoning rules suggest.</li>
         </ul>
 
         <div class="note">
-          Even if zoning setbacks appear flexible, fire separation, opening
-          protection, utility access, drainage, and site-specific conditions may
-          still affect whether the ADU can be approved.
+          Setbacks are not only a zoning issue. Fire separation, opening
+          protection, drainage, utilities, access, and site-specific conditions
+          can still affect whether the ADU can be approved.
         </div>
       </section>
 
@@ -249,10 +150,11 @@
 
         <ul>
           <li>Is the property in San Diego city jurisdiction?</li>
-          <li>Is the ADU detached, attached, or a conversion?</li>
+          <li>Is the ADU detached, attached, a conversion, or a rebuild?</li>
           <li>Will the ADU be 16 feet or less, or taller?</li>
-          <li>Is the site in a Coastal Overlay Zone?</li>
-          <li>Is the site in a High or Very High Fire Hazard Severity Zone?</li>
+          <li>Is the site in the Coastal Overlay Zone?</li>
+          <li>Is the site in a Very High Fire Hazard Severity Zone?</li>
+          <li>Is brush management required?</li>
           <li>Does the design include exterior stairs, decks, or balconies?</li>
         </ul>
       </section>
@@ -261,16 +163,17 @@
         <h2>Source Notes</h2>
 
         <p>
-          This research page is based on citation-grounded ADU source material
-          used by LUMZone’s San Diego ADU research assistant.
+          This research page summarizes San Diego ADU setback concepts used by
+          LUMZone's citation-grounded research workflow.
         </p>
 
         <div class="source-box">
           <p><strong>Commonly referenced source types:</strong></p>
           <ul>
+            <li>San Diego Information Bulletin 400</li>
             <li>San Diego Municipal Code ADU regulations</li>
-            <li>San Diego ADU Information Bulletin 400</li>
-            <li>City zoning and development standards</li>
+            <li>California HCD ADU Handbook and state ADU law guidance</li>
+            <li>building and fire-code review requirements</li>
           </ul>
         </div>
 
@@ -289,10 +192,13 @@
           English, with answers grounded in cited source material.
         </p>
 
-        <a href="../../chat.html" class="btn btn-main">
-          Ask the ADU Assistant
-        </a>
+        <a href="../../chat.html" class="btn-main">Ask the ADU Assistant</a>
       </section>
+
+      <div class="powered-badge">
+        <i class="bi bi-stars"></i>
+        Powered by LUMZone AI
+      </div>
     </main>
   </body>
 </html>
