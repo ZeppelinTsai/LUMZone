@@ -909,6 +909,48 @@ body {
   margin-bottom: 14px;
 }
 
+.markdown-answer h2,
+.markdown-answer h3,
+.markdown-answer h4 {
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 18px 0 8px;
+}
+
+.markdown-answer h2 {
+  font-size: 20px;
+}
+
+.markdown-answer h3 {
+  font-size: 16px;
+}
+
+.markdown-answer h4 {
+  font-size: 14px;
+}
+
+.markdown-answer p {
+  margin: 0 0 12px;
+}
+
+.markdown-answer ol,
+.markdown-answer ul {
+  margin: 8px 0 14px 20px;
+  padding: 0;
+}
+
+.markdown-answer li {
+  margin: 8px 0;
+  padding-left: 2px;
+}
+
+.markdown-answer hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 16px 0;
+}
+
 .sources-block.compact {
   margin-top: 16px;
   padding-top: 14px;

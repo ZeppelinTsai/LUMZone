@@ -345,10 +345,6 @@ async function sendMessage() {
       srcMap[s.sid] = s;
     });
 
-    const srcMap = {};
-    (data.provided_sources || []).forEach((s) => {
-      srcMap[s.sid] = s;
-    });
     Object.assign(sess.sources, srcMap);
     lastSourceBySid = new Map(Object.entries(sess.sources));
     sess.messages.push({ role: "assistant", content: aiText });

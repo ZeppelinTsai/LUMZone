@@ -110,14 +110,11 @@ function parseSourceMap(block) {
 }
 function parseSourceIds(raw) {
   const ids = new Set();
-  const tagMatch = raw.match(/\{src:\[([^\]]+)\]\}/);
 
-  if (tagMatch) {
-    tagMatch[1]
-      .split(",")
-      .map((id) => id.trim())
-      .filter(Boolean)
-      .forEach((id) => ids.add(id));
+  for (const tagMatch of raw.matchAll(/\{src:\s*([^}]+)\}/g)) {
+    for (const idMatch of tagMatch[1].matchAll(/S\d+/g)) {
+      ids.add(idMatch[0]);
+    }
   }
 
   for (const match of raw.matchAll(/^\s*\[(S\d+)\]\s+(.+)$/gm)) {
@@ -129,7 +126,9 @@ function parseSourceIds(raw) {
 function stripPlainSources(raw) {
   return raw
     .replace(/\n*\s*參考來源\s*\{src:\[[^\]]+\]\}\s*/g, "")
+    .replace(/\n*\s*參考來源\s*\{src:\s*[^}]+\}\s*/g, "")
     .replace(/\n*\s*Sources\s*\{src:\[[^\]]+\]\}\s*/gi, "")
+    .replace(/\n*\s*Sources\s*\{src:\s*[^}]+\}\s*/gi, "")
     .replace(/\n*\s*參考來源[:：]?\s*(?:\n\s*\[S\d+\]\s+.*)+\s*$/g, "")
     .replace(/\n*\s*Sources[:：]?\s*(?:\n\s*\[S\d+\]\s+.*)+\s*$/gi, "")
     .replace(/\n*\s*(?:\[S\d+\]\s+.*\n?)+\s*$/g, "")
@@ -180,6 +179,170 @@ function renderItemWithChips(item, sourceMap, sidIndexMap) {
     .join("");
   return `${escapeHtml(item.text)}${chips ? `<span class="src-chips">${chips}</span>` : ""}`;
 }
+
+function makeSourceMapForIds(sourceIds) {
+  const sourceMap = new Map();
+
+  sourceIds.forEach((sid) => {
+    sourceMap.set(sid, getSourceDisplayName(sid, sid));
+  });
+
+  return sourceMap;
+}
+
+function renderSourceChips(sourceIds, sourceMap, sidIndexMap) {
+  const chips = sourceIds
+    .filter((id) => sourceMap.has(id))
+    .map((id) => {
+      const idx = sidIndexMap.get(id) || "?";
+      const label = circled(idx);
+      const title = escapeHtml(sourceMap.get(id) || id);
+      return `<span class="src-chip" data-sid="${escapeHtml(id)}" title="${title}" onclick="openLawSid(this)">${label}</span>`;
+    })
+    .join("");
+
+  return chips ? `<span class="src-chips">${chips}</span>` : "";
+}
+
+function renderInlineMarkdown(text, sourceMap, sidIndexMap) {
+  return String(text || "")
+    .split(/(\{src:\s*[^}]+\})/g)
+    .map((part) => {
+      if (/^\{src:\s*[^}]+\}$/.test(part)) {
+        const ids = [...part.matchAll(/S\d+/g)].map((match) => match[0]);
+        return renderSourceChips(ids, sourceMap, sidIndexMap);
+      }
+
+      return escapeHtml(part)
+        .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+        .replace(/`([^`]+)`/g, "<code>$1</code>");
+    })
+    .join("");
+}
+
+function renderMarkdownAnswer(raw, keyword, role = "ai") {
+  const sourceIds = parseSourceIds(raw);
+  const body = stripPlainSources(raw)
+    .replace(/^\s*\*\*Sources used:\*\*\s*$/gim, "")
+    .replace(/^\s*Sources used:\s*$/gim, "")
+    .trim();
+  const sourceMap = makeSourceMapForIds(sourceIds);
+  const sidIndexMap = buildSidIndexMap(sourceMap);
+  const lines = body.split("\n");
+  let html = `<div class="plain-answer markdown-answer">`;
+  let listType = null;
+  let paragraph = [];
+
+  const closeList = () => {
+    if (!listType) return;
+    html += `</${listType}>`;
+    listType = null;
+  };
+
+  const flushParagraph = () => {
+    if (!paragraph.length) return;
+    closeList();
+    html += `<p>${renderInlineMarkdown(paragraph.join(" "), sourceMap, sidIndexMap)}</p>`;
+    paragraph = [];
+  };
+
+  const openList = (type) => {
+    if (listType === type) return;
+    closeList();
+    listType = type;
+    html += `<${type}>`;
+  };
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushParagraph();
+      return;
+    }
+
+    if (/^-{3,}$/.test(trimmed)) {
+      flushParagraph();
+      closeList();
+      html += "<hr>";
+      return;
+    }
+
+    const heading = trimmed.match(/^(#{1,4})\s+(.+)$/);
+    if (heading) {
+      flushParagraph();
+      closeList();
+      const level = Math.min(heading[1].length + 1, 4);
+      html += `<h${level}>${renderInlineMarkdown(heading[2], sourceMap, sidIndexMap)}</h${level}>`;
+      return;
+    }
+
+    const ordered = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (ordered) {
+      flushParagraph();
+      openList("ol");
+      html += `<li>${renderInlineMarkdown(ordered[1], sourceMap, sidIndexMap)}</li>`;
+      return;
+    }
+
+    const unordered = trimmed.match(/^[-*]\s+(.+)$/);
+    if (unordered) {
+      flushParagraph();
+      openList("ul");
+      html += `<li>${renderInlineMarkdown(unordered[1], sourceMap, sidIndexMap)}</li>`;
+      return;
+    }
+
+    paragraph.push(trimmed);
+  });
+
+  flushParagraph();
+  closeList();
+  html += "</div>";
+
+  if (sourceIds.length) {
+    html += renderSourcesBlock(sourceIds, keyword);
+  }
+
+  if (role === "ai") html += renderAnswerActions();
+  return html;
+}
+
+function renderSourcesBlock(sourceIds, keyword) {
+  return `
+    <div class="sources-block compact">
+      <div class="sources-label">Sources (click to inspect)</div>
+      <div class="source-list">
+        ${sourceIds
+          .map((sid) => {
+            const src = lastSourceBySid?.get(sid);
+            const name =
+              src?.loc_str ||
+              src?.law_name ||
+              src?.title ||
+              src?.source_title ||
+              src?.name ||
+              sid;
+
+            return `
+              <div class="source-row" data-sid="${escapeHtml(sid)}" onclick="openLawSid(this)">
+                <span class="source-num">${escapeHtml(sid)}</span>
+                <span class="source-name">
+                  ${escapeHtml(name)}
+                  <span class="source-preview">
+                    ${highlight(makeSourcePreview(src?.text), keyword)}
+                  </span>
+                </span>
+                <span class="source-arrow">›</span>
+              </div>
+            `;
+          })
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
 function formatMessage(text, keyword, role = "ai") {
   const raw = (text || "").trim();
   if (!raw) return "";
@@ -194,6 +357,15 @@ function formatMessage(text, keyword, role = "ai") {
       raw.includes("Sources:"));
   if (!ok) {
     const sourceIds = parseSourceIds(raw);
+
+    if (
+      sourceIds.length ||
+      /^#{1,4}\s+/m.test(raw) ||
+      /\*\*[^*]+\*\*/.test(raw)
+    ) {
+      return renderMarkdownAnswer(raw, keyword, role);
+    }
+
     const body = stripPlainSources(raw);
 
     let html = `
@@ -203,42 +375,7 @@ function formatMessage(text, keyword, role = "ai") {
   `;
 
     if (sourceIds.length) {
-      html += `
-      <div class="sources-block compact">
-        <div class="sources-label">Sources (click to inspect)</div>
-        <div class="source-list">
-          ${sourceIds
-            .map((sid) => {
-              const src = lastSourceBySid?.get(sid);
-
-              const name =
-                src?.loc_str ||
-                src?.law_name ||
-                src?.title ||
-                src?.source_title ||
-                src?.name ||
-                sid;
-
-              return `
-              <div class="source-row" data-sid="${sid}" onclick="openLawSid(this)">
-                <span class="source-num">${sid}</span>
-                <span class="source-name">
-                  ${escapeHtml(name)}
-                <span class="source-preview">
-                  ${highlight(
-                    makeSourcePreview(lastSourceBySid?.get(sid)?.text),
-                    keyword,
-                  )}
-                </span>
-                </span>
-                <span class="source-arrow">›</span>
-              </div>
-            `;
-            })
-            .join("")}
-        </div>
-      </div>
-    `;
+      html += renderSourcesBlock(sourceIds, keyword);
     }
     if (role === "ai") html += renderAnswerActions();
     return html;
