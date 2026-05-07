@@ -394,18 +394,18 @@ async function openLawSid(el) {
 
   const title = s?.loc_str || sid;
   const body = s?.text || "This source did not return text for this query.";
-  const url = (s?.source_url || "").trim();
+  const url = (s?.url || "").trim();
 
   showLawModal(title);
 
-  // fallback_hint：也可以塞 s?.law_name 或你 sourceMap 的 ref 字串（如果你有存）
   renderLawModal({
     title,
     body,
-    source_url: url,
-    fallback_hint: title, // 暴力：先用 title 猜
+    url: url,
+    fallback_hint: title,
   });
 }
+
 function showLawModal(title) {
   document.getElementById("lawModalTitle").textContent = title || "Source";
   document.getElementById("lawModalBody").textContent = "Loading...";
@@ -461,7 +461,7 @@ function buildMojUrlFromHint(hintText) {
   // Broad source URL otherwise.
   return law.url;
 }
-function renderLawModal({ title, body, source_url, fallback_hint }) {
+function renderLawModal({ title, body, url, fallback_hint }) {
   document.getElementById("lawModalTitle").textContent = title || "Source";
   document.getElementById("lawModalBody").textContent = body || "";
   document.getElementById("lawModalStatus").textContent = "";
@@ -469,7 +469,7 @@ function renderLawModal({ title, body, source_url, fallback_hint }) {
   const l = document.getElementById("lawModalLink");
 
   let url =
-    (source_url || "").trim() ||
+    (url || "").trim() ||
     guessLawUrlFromText(title) ||
     guessLawUrlFromText(fallback_hint) ||
     "https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units";
