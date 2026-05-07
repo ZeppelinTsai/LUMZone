@@ -463,19 +463,21 @@ function buildMojUrlFromHint(hintText) {
 }
 function renderLawModal({ title, body, url, fallback_hint }) {
   document.getElementById("lawModalTitle").textContent = title || "Source";
+
   document.getElementById("lawModalBody").textContent = body || "";
+
   document.getElementById("lawModalStatus").textContent = "";
 
   const l = document.getElementById("lawModalLink");
 
-  let url =
+  const finalUrl =
     (url || "").trim() ||
     guessLawUrlFromText(title) ||
     guessLawUrlFromText(fallback_hint) ||
     "https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units";
 
   l.style.display = "inline-block";
-  l.href = url;
+  l.href = finalUrl;
   l.textContent = "Open Source";
 }
 function closeLawModal(e) {
