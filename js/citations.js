@@ -655,6 +655,21 @@ function makeSourcePreview(text, len = 72) {
 
   return clean.length > len ? clean.slice(0, len) + "…" : clean;
 }
+const STOPWORDS = new Set([
+  "the",
+  "a",
+  "an",
+  "is",
+  "are",
+  "what",
+  "how",
+  "can",
+  "does",
+  "in",
+  "on",
+  "of",
+  "to",
+]);
 function highlight(text, keyword) {
   if (!text || !keyword) return text;
 
@@ -663,7 +678,9 @@ function highlight(text, keyword) {
   const safeKeyword = escapeHtml(keyword);
 
   // Split multi-word highlights on whitespace.
-  const keywords = safeKeyword.split(/\s+/).filter(Boolean);
+  const keywords = safeKeyword
+    .split(/\s+/)
+    .filter((k) => k.length >= 3 && !STOPWORDS.has(k.toLowerCase()));
 
   let result = safeText;
 
