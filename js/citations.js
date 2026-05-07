@@ -410,6 +410,12 @@ function formatMessage(text, keyword, role = "ai") {
   if (detailItems.length)
     html += `<div><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Details</strong><div style="margin-top:10px">${detailItems.map((it, i) => `<div class="detail-item"><span class="detail-num">${i + 1}.</span><span>${renderItemWithChips(it, sourceMap, sidIndexMap)}</span></div>`).join("")}</div></div>`;
   const refs = [...sourceMap.entries()];
+
+  refs.sort((a, b) => {
+    const na = parseInt(a[0].replace("S", ""));
+    const nb = parseInt(b[0].replace("S", ""));
+    return na - nb;
+  });
   if (refs.length) {
     const rows = refs
       .map(
