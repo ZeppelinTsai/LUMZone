@@ -129,12 +129,15 @@ function parseSourceIds(raw) {
 function stripPlainSources(raw) {
   return raw
     .replace(/\n*\s*參考來源\s*\{src:\[[^\]]+\]\}\s*/g, "")
+    .replace(/\n*\s*Sources\s*\{src:\[[^\]]+\]\}\s*/gi, "")
     .replace(/\n*\s*參考來源[:：]?\s*(?:\n\s*\[S\d+\]\s+.*)+\s*$/g, "")
+    .replace(/\n*\s*Sources[:：]?\s*(?:\n\s*\[S\d+\]\s+.*)+\s*$/gi, "")
     .replace(/\n*\s*(?:\[S\d+\]\s+.*\n?)+\s*$/g, "")
     .replace(/\n*\s*參考來源\s*$/g, "")
+    .replace(/\n*\s*Sources\s*$/gi, "")
     .trim();
 }
-// Build sid → display index (1-based) from ordered source map
+// Build sid to display index (1-based) from ordered source map.
 function buildSidIndexMap(sourceMap) {
   const m = new Map();
   let i = 1;
@@ -181,10 +184,14 @@ function formatMessage(text, keyword, role = "ai") {
   const raw = (text || "").trim();
   if (!raw) return "";
   const ok =
-    raw.includes("主題:") &&
-    raw.includes("摘要:") &&
-    raw.includes("詳細說明:") &&
-    raw.includes("參考來源:");
+    ((raw.includes("主題:") &&
+      raw.includes("摘要:") &&
+      raw.includes("詳細說明:") &&
+      raw.includes("參考來源:")) ||
+      (raw.includes("Topic:") &&
+        raw.includes("Summary:") &&
+        raw.includes("Details:") &&
+        raw.includes("Sources:")));
   if (!ok) {
     const sourceIds = parseSourceIds(raw);
     const body = stripPlainSources(raw);
@@ -198,7 +205,7 @@ function formatMessage(text, keyword, role = "ai") {
     if (sourceIds.length) {
       html += `
       <div class="sources-block compact">
-        <div class="sources-label">參考來源（點擊閱覽條文）</div>
+        <div class="sources-label">Sources (click to inspect)</div>
         <div class="source-list">
           ${sourceIds
             .map((sid) => {
@@ -237,11 +244,18 @@ function formatMessage(text, keyword, role = "ai") {
     return html;
   }
   const topic = (
-    pickSection(raw, "主題:", ["摘要:", "詳細說明:", "參考來源:"]) || ""
+    pickSection(raw, "Topic:", ["Summary:", "Details:", "Sources:"]) ||
+    pickSection(raw, "主題:", ["摘要:", "詳細說明:", "參考來源:"]) ||
+    ""
   ).trim();
-  const summaryBlock = pickSection(raw, "摘要:", ["詳細說明:", "參考來源:"]);
-  const detailBlock = pickSection(raw, "詳細說明:", ["參考來源:"]);
-  const refsBlock = pickSection(raw, "參考來源:", []);
+  const summaryBlock =
+    pickSection(raw, "Summary:", ["Details:", "Sources:"]) ||
+    pickSection(raw, "摘要:", ["詳細說明:", "參考來源:"]);
+  const detailBlock =
+    pickSection(raw, "Details:", ["Sources:"]) ||
+    pickSection(raw, "詳細說明:", ["參考來源:"]);
+  const refsBlock =
+    pickSection(raw, "Sources:", []) || pickSection(raw, "參考來源:", []);
   const summaryItems = parseNumberedItems(summaryBlock);
   const detailItems = parseNumberedItems(detailBlock);
   const sourceMap = parseSourceMap(refsBlock);
@@ -253,11 +267,11 @@ function formatMessage(text, keyword, role = "ai") {
   const sidIndexMap = buildSidIndexMap(sourceMap);
   let html = "";
   if (topic)
-    html += `<div style="margin-bottom:10px;"><div style="font-family:'Noto Serif TC',serif;font-weight:800;font-size:16px;line-height:1.4;">${escapeHtml(topic)}</div></div>`;
+    html += `<div style="margin-bottom:10px;"><div style="font-weight:800;font-size:16px;line-height:1.4;">${escapeHtml(topic)}</div></div>`;
   if (summaryItems.length)
-    html += `<div class="summary-block"><strong>摘要</strong>${summaryItems.map((it, i) => `<div class="detail-item"><span class="detail-num">${i + 1}.</span><span>${renderItemWithChips(it, sourceMap, sidIndexMap)}</span></div>`).join("")}</div>`;
+    html += `<div class="summary-block"><strong>Summary</strong>${summaryItems.map((it, i) => `<div class="detail-item"><span class="detail-num">${i + 1}.</span><span>${renderItemWithChips(it, sourceMap, sidIndexMap)}</span></div>`).join("")}</div>`;
   if (detailItems.length)
-    html += `<div><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">詳細說明</strong><div style="margin-top:10px">${detailItems.map((it, i) => `<div class="detail-item"><span class="detail-num">${i + 1}.</span><span>${renderItemWithChips(it, sourceMap, sidIndexMap)}</span></div>`).join("")}</div></div>`;
+    html += `<div><strong style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Details</strong><div style="margin-top:10px">${detailItems.map((it, i) => `<div class="detail-item"><span class="detail-num">${i + 1}.</span><span>${renderItemWithChips(it, sourceMap, sidIndexMap)}</span></div>`).join("")}</div></div>`;
   const refs = [...sourceMap.entries()];
   if (refs.length) {
     const rows = refs
@@ -278,7 +292,7 @@ function formatMessage(text, keyword, role = "ai") {
       </div>`,
       )
       .join("");
-    html += `<div class="sources-block"><div class="sources-label">參考來源（點擊閱覽條文）</div><div class="source-list">${rows}</div></div>`;
+    html += `<div class="sources-block"><div class="sources-label">Sources (click to inspect)</div><div class="source-list">${rows}</div></div>`;
   }
   if (role === "ai") html += renderAnswerActions();
   return (
@@ -289,9 +303,9 @@ function formatMessage(text, keyword, role = "ai") {
 function renderAnswerActions() {
   return `
     <div class="answer-actions">
-      <button class="action-btn" onclick="reportIssue(this)">問題回報</button>
-      <button class="action-btn" onclick="retryAnswer(this)">重新回答</button>
-      <button class="action-btn" onclick="copyAnswer(this)">複製答案</button>
+      <button class="action-btn" onclick="reportIssue(this)">Report issue</button>
+      <button class="action-btn" onclick="retryAnswer(this)">Retry</button>
+      <button class="action-btn" onclick="copyAnswer(this)">Copy answer</button>
     </div>
   `;
 }
@@ -300,8 +314,8 @@ function reportIssue(btn) {
   const text = bubble.innerText;
 
   const mail = "luxandpei@gmail.com";
-  const subject = encodeURIComponent("LUMZone 問題回報");
-  const body = encodeURIComponent(`以下是系統回答：\n\n${text}`);
+  const subject = encodeURIComponent("LUMZone issue report");
+  const body = encodeURIComponent(`System answer:\n\n${text}`);
 
   window.location.href = `mailto:${mail}?subject=${subject}&body=${body}`;
 }
@@ -309,7 +323,7 @@ function retryAnswer(btn) {
   const sess = getSession(currentSessionId);
   if (!sess) return;
 
-  // 找最後一個 user 問題
+  // Find the most recent user question.
   const lastUser = [...sess.messages].reverse().find((m) => m.role === "user");
 
   if (!lastUser) return;
@@ -322,15 +336,15 @@ function copyAnswer(btn) {
   const bubble = btn.closest(".bubble");
   const clone = bubble.cloneNode(true);
 
-  // 移除 UI 垃圾
+  // Remove UI-only controls before copying.
   clone.querySelector(".sources-block")?.remove();
   clone.querySelector(".answer-actions")?.remove();
   clone.querySelectorAll(".src-chip").forEach((el) => el.remove());
 
-  // ⭐ 改這裡：用 innerHTML 保留結構
+  // Preserve readable structure.
   let html = clone.innerHTML;
 
-  // 轉成「可讀文字」
+  // Convert to readable plain text.
   html = html
     .replace(/<br\s*\/?>/gi, "\n")
     .replace(/<\/div>/gi, "\n")
@@ -341,9 +355,9 @@ function copyAnswer(btn) {
 
   navigator.clipboard.writeText(html);
 
-  btn.innerText = "已複製 ✓";
+  btn.innerText = "Copied";
   setTimeout(() => {
-    btn.innerText = "複製答案";
+    btn.innerText = "Copy answer";
   }, 1200);
 }
 function getSourceDisplayName(sid, fallback = "") {
@@ -379,7 +393,7 @@ async function openLawSid(el) {
   const s = lastSourceBySid.get(sid);
 
   const title = s?.loc_str || sid;
-  const body = s?.text || "（此來源在本次檢索中未回傳內容）";
+  const body = s?.text || "This source did not return text for this query.";
   const url = (s?.source_url || "").trim();
 
   showLawModal(title);
@@ -393,9 +407,9 @@ async function openLawSid(el) {
   });
 }
 function showLawModal(title) {
-  document.getElementById("lawModalTitle").textContent = title || "法條";
-  document.getElementById("lawModalBody").textContent = "載入中…";
-  document.getElementById("lawModalStatus").textContent = "查詢中…";
+  document.getElementById("lawModalTitle").textContent = title || "Source";
+  document.getElementById("lawModalBody").textContent = "Loading...";
+  document.getElementById("lawModalStatus").textContent = "Searching...";
   const l = document.getElementById("lawModalLink");
   l.style.display = "none";
   l.href = "#";
@@ -411,9 +425,6 @@ function guessLawFromText(text) {
     if (t.includes(item.key)) return item;
   }
 
-  if (t.includes("建築技術規則")) {
-    return LAW_FALLBACKS.find((x) => x.pcode === "D0070115") || null;
-  }
   return null;
 }
 function extractArticleNo(text) {
@@ -442,16 +453,16 @@ function buildMojUrlFromHint(hintText) {
 
   const flno = extractArticleNo(hintText);
 
-  // 有條號 → LawSingle
+  // Source-specific article URL when available.
   if (flno) {
     return `https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=${encodeURIComponent(law.pcode)}&flno=${encodeURIComponent(flno)}`;
   }
 
-  // 沒條號 → LawAll
+  // Broad source URL otherwise.
   return law.url;
 }
 function renderLawModal({ title, body, source_url, fallback_hint }) {
-  document.getElementById("lawModalTitle").textContent = title || "法條";
+  document.getElementById("lawModalTitle").textContent = title || "Source";
   document.getElementById("lawModalBody").textContent = body || "";
   document.getElementById("lawModalStatus").textContent = "";
 
@@ -470,66 +481,35 @@ function renderLawModal({ title, body, source_url, fallback_hint }) {
 
   l.style.display = "inline-block";
   l.href = url;
-  l.textContent = "開啟來源";
+  l.textContent = "Open Source";
 }
 function closeLawModal(e) {
   const modalEl = document.getElementById("lawModal");
   bootstrap.Modal.getInstance(modalEl)?.hide();
 }
 
-// ── Brutal law list fallback (MOJ LawAll) ────────────────────────────────────
+// Generic fallback for records that do not include a source URL.
 const LAW_FALLBACKS = [
   {
-    key: "建築法",
-    pcode: "D0070109",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070109",
+    key: "ADU",
+    pcode: "",
+    url: "https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units",
   },
   {
-    key: "建築技術規則｜建築設計施工編",
-    pcode: "D0070115",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070115",
-  },
-  {
-    key: "建築技術規則｜建築構造編",
-    pcode: "D0070116",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070116",
-  },
-  {
-    key: "建築技術規則｜建築設備編",
-    pcode: "D0070117",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070117",
-  },
-  {
-    key: "建築師法",
-    pcode: "D0070112",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0070112",
-  },
-  {
-    key: "公寓大廈管理條例",
-    pcode: "D0070118",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070118",
-  },
-  {
-    key: "消防法",
-    pcode: "D0120001",
-    url: "https://law.moj.gov.tw/LawClass/LawAll.aspx?PCode=D0120001",
+    key: "Accessory Dwelling Unit",
+    pcode: "",
+    url: "https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units",
   },
 ];
-// 用 loc_str / ref 文字去猜是哪部法（超暴力：包含關鍵字就算）
+// Infer a broad source URL from record text when the backend omits a URL.
 function guessLawUrlFromText(text) {
   const t = (text || "").trim();
   if (!t) return "";
 
-  // 優先長的 key，避免「建築技術規則」被「建築法」先吃掉
   const sorted = [...LAW_FALLBACKS].sort((a, b) => b.key.length - a.key.length);
 
   for (const item of sorted) {
     if (t.includes(item.key)) return item.url;
-  }
-
-  // 更暴力的二階段：只要出現「建築技術規則」但沒分編，就先導到設計施工編
-  if (t.includes("建築技術規則")) {
-    return "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=D0070115";
   }
 
   return "";
@@ -544,17 +524,17 @@ function makeSourcePreview(text, len = 72) {
 function highlight(text, keyword) {
   if (!text || !keyword) return text;
 
-  // 1️⃣ escape，防 XSS
+  // Escape for XSS safety.
   const safeText = escapeHtml(text);
   const safeKeyword = escapeHtml(keyword);
 
-  // 2️⃣ 多關鍵字切分（空白）
+  // Split multi-word highlights on whitespace.
   const keywords = safeKeyword.split(/\s+/).filter(Boolean);
 
   let result = safeText;
 
   keywords.forEach((kw) => {
-    const regex = new RegExp(`(${kw})`, "gi"); // 不分大小寫
+    const regex = new RegExp(`(${kw})`, "gi");
     result = result.replace(regex, `<mark>$1</mark>`);
   });
 

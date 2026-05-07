@@ -27,11 +27,11 @@ function cleanSpeechText(text) {
     .trim();
 }
 
-function pickChineseVoice() {
+function pickEnglishVoice() {
   const voices = window.speechSynthesis?.getVoices?.() || [];
   return (
-    voices.find((voice) => voice.lang === "zh-TW") ||
-    voices.find((voice) => voice.lang?.startsWith("zh")) ||
+    voices.find((voice) => voice.lang === "en-US") ||
+    voices.find((voice) => voice.lang?.startsWith("en")) ||
     null
   );
 }
@@ -41,9 +41,9 @@ function setSpeechButtonState(button, isSpeaking) {
 
   button.classList.toggle("speaking", isSpeaking);
   button.innerHTML = isSpeaking
-    ? `<i class="bi bi-stop-fill" aria-hidden="true"></i><span>停止朗讀</span>`
-    : `<i class="bi bi-volume-up-fill" aria-hidden="true"></i><span>朗讀</span>`;
-  button.title = isSpeaking ? "停止朗讀" : "朗讀 AI 回答";
+    ? `<i class="bi bi-stop-fill" aria-hidden="true"></i><span>Stop</span>`
+    : `<i class="bi bi-volume-up-fill" aria-hidden="true"></i><span>Read</span>`;
+  button.title = isSpeaking ? "Stop reading" : "Read answer aloud";
   button.setAttribute("aria-label", button.title);
 }
 
@@ -62,7 +62,7 @@ function createAiSpeechButton(content) {
 
   if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
     button.disabled = true;
-    button.title = "此瀏覽器不支援語音朗讀";
+    button.title = "This browser does not support text-to-speech";
     return button;
   }
 
@@ -78,10 +78,10 @@ function createAiSpeechButton(content) {
     stopAiSpeech();
 
     const utterance = new SpeechSynthesisUtterance(speechText);
-    utterance.lang = "zh-TW";
+    utterance.lang = "en-US";
     utterance.rate = 1;
     utterance.pitch = 1;
-    utterance.voice = pickChineseVoice();
+    utterance.voice = pickEnglishVoice();
     utterance.onend = () => {
       if (activeSpeechUtterance === utterance) stopAiSpeech();
     };
@@ -110,13 +110,13 @@ function setupVoiceInput() {
   voiceBtn.type = "button";
   voiceBtn.id = "voiceBtn";
   voiceBtn.className = "voice-btn";
-  voiceBtn.title = "語音輸入";
-  voiceBtn.setAttribute("aria-label", "語音輸入");
+  voiceBtn.title = "Voice input";
+  voiceBtn.setAttribute("aria-label", "Voice input");
   voiceBtn.innerHTML = `<i class="bi bi-mic-fill" aria-hidden="true"></i>`;
 
   if (!getSpeechRecognition()) {
     voiceBtn.disabled = true;
-    voiceBtn.title = "此瀏覽器不支援語音辨識";
+    voiceBtn.title = "This browser does not support voice input";
   } else {
     voiceBtn.addEventListener("click", toggleVoiceRecognition);
   }
@@ -136,10 +136,10 @@ function setVoiceListeningState(isListening) {
   voiceBtn.innerHTML = isListening
     ? `<i class="bi bi-stop-fill" aria-hidden="true"></i>`
     : `<i class="bi bi-mic-fill" aria-hidden="true"></i>`;
-  voiceBtn.title = isListening ? "停止語音輸入" : "語音輸入";
+  voiceBtn.title = isListening ? "Stop voice input" : "Voice input";
   voiceBtn.setAttribute(
     "aria-label",
-    isListening ? "停止語音輸入" : "語音輸入",
+    isListening ? "Stop voice input" : "Voice input",
   );
 }
 
@@ -162,7 +162,7 @@ function toggleVoiceRecognition() {
 
 function startVoiceRecognition(SpeechRecognition, input) {
   voiceRecognition = new SpeechRecognition();
-  voiceRecognition.lang = "zh-TW";
+  voiceRecognition.lang = "en-US";
   voiceRecognition.interimResults = true;
   voiceRecognition.continuous = true;
 
@@ -192,7 +192,7 @@ function startVoiceRecognition(SpeechRecognition, input) {
     if (event.error === "not-allowed" || event.error === "service-not-allowed") {
       voiceShouldKeepListening = false;
       setVoiceListeningState(false);
-      addMessage("ai", "⚠️ 請允許瀏覽器使用麥克風後，再試一次語音輸入。");
+      addMessage("ai", "Please allow microphone access, then try voice input again.");
     }
   };
 
@@ -211,7 +211,7 @@ function startVoiceRecognition(SpeechRecognition, input) {
   } catch (err) {
     voiceShouldKeepListening = false;
     setVoiceListeningState(false);
-    addMessage("ai", "⚠️ 目前無法啟動語音輸入，請確認瀏覽器與麥克風權限。");
+    addMessage("ai", "Voice input could not start. Please check your browser and microphone permissions.");
   }
 }
 
@@ -221,7 +221,7 @@ async function sendMessage() {
   setupVoiceInput();
 
   if (!getToken()) {
-    addMessage("ai", "請先登入後再開始查詢。");
+    addMessage("ai", "Please sign in before starting a zoning research query.");
     return;
   }
   const input = document.getElementById("userInput");
@@ -283,17 +283,17 @@ async function sendMessage() {
       if (res.status === 403) {
         Swal.fire({
           icon: "warning",
-          title: "試用次數已用完",
+          title: "Trial Limit Reached",
           html: `
         <div style="line-height:1.8">
-          請升級 Pro 繼續使用<br>
-          <strong>Pro 方案：NT$199 / 月</strong><br>
-          <small>每月 150 次 AI 法規查詢 / 附條文來源 / 節省手動翻法規時間</small>
+          Upgrade to Pro to continue researching<br>
+          <strong>Pro plan: $19 / month</strong><br>
+          <small>150 AI zoning research queries / source citations / faster rule review</small>
         </div>
       `,
           showCancelButton: true,
-          confirmButtonText: "升級 Pro",
-          cancelButtonText: "稍後再說",
+          confirmButtonText: "Upgrade to Pro",
+          cancelButtonText: "Not now",
           confirmButtonColor: "#d6522c",
           heightAuto: false, // ⭐ 重點
         }).then((result) => {
@@ -304,11 +304,11 @@ async function sendMessage() {
         return;
       }
 
-      addMessage("ai", `⚠️ ${data.detail || "伺服器錯誤"}`);
+      addMessage("ai", `${data.detail || "Server error"}`);
       return;
     }
 
-    let aiText = data.answer || "抱歉，無法取得回應。";
+    let aiText = data.answer || "Sorry, I could not retrieve an answer.";
 
     const hasSources = (data.provided_sources || []).length > 0;
     const hasSrcTag = /\{src:\[[^\]]+\]\}/.test(aiText);
@@ -319,7 +319,7 @@ async function sendMessage() {
         .map((s) => s.sid)
         .join(",");
 
-      aiText += `\n\n參考來源 {src:[${fallbackSrcTags}]}`;
+      aiText += `\n\nSources {src:[${fallbackSrcTags}]}`;
     }
 
     const srcMap = {};
@@ -335,7 +335,7 @@ async function sendMessage() {
     renderHistoryList();
   } catch (err) {
     typingEl.remove();
-    addMessage("ai", "⚠️ 連線錯誤，請確認伺服器是否已啟動。");
+    addMessage("ai", "Connection error. Please confirm the server is running.");
   } finally {
     sendBtn.disabled = false;
   }

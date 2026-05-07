@@ -8,7 +8,7 @@ async function login(email) {
   const data = await res.json();
 
   if (!res.ok) {
-    alert("登入失敗");
+    alert("Sign-in failed");
     return;
   }
 
@@ -30,7 +30,7 @@ async function handleEmailLogin() {
   const email = input.value.trim();
 
   if (!email) {
-    alert("請輸入 Email");
+    alert("Please enter your email");
     return;
   }
 
@@ -43,7 +43,7 @@ async function handleEmailLogin() {
   const data = await res.json();
 
   if (!res.ok) {
-    alert(data.detail || "登入失敗");
+    alert(data.detail || "Sign-in failed");
     return;
   }
 
@@ -79,7 +79,7 @@ function renderAuthState() {
     guestEl.style.display = "none";
     userEl.style.display = "block";
 
-    // ⭐ 更新 UI
+    // Update auth UI.
     const userDropdown = document.getElementById("userDropdown");
     const avatar = document.getElementById("userAvatar");
 
@@ -106,7 +106,7 @@ async function handleEmailLoginModal() {
   const email = document.getElementById("loginEmail").value.trim();
 
   if (!email) {
-    Swal.fire("請輸入 Email");
+    Swal.fire("Please enter your email");
     return;
   }
 
@@ -119,14 +119,14 @@ async function handleEmailLoginModal() {
   const data = await res.json();
 
   if (!res.ok) {
-    Swal.fire("登入失敗", data.detail || "", "error");
+    Swal.fire("Sign-in failed", data.detail || "", "error");
     return;
   }
 
   localStorage.setItem(TOKEN_KEY, data.token);
   localStorage.setItem("lumzone_user", JSON.stringify(data.user));
 
-  Swal.fire("登入成功", data.user.email, "success");
+  Swal.fire("Signed in", data.user.email, "success");
 
   renderAuthState();
 
@@ -137,12 +137,12 @@ async function requestCode() {
   const btn = document.getElementById("requestCodeBtn");
 
   if (!email) {
-    Swal.fire("請輸入 Email");
+    Swal.fire("Please enter your email");
     return;
   }
 
   btn.disabled = true;
-  btn.textContent = "發送中...";
+  btn.textContent = "Sending...";
 
   try {
     const res = await fetch(`${API_BASE}/api/auth/request-code`, {
@@ -155,9 +155,9 @@ async function requestCode() {
 
     if (!res.ok) {
       btn.disabled = false;
-      btn.textContent = "發送驗證碼";
+      btn.textContent = "Send sign-in code";
 
-      Swal.fire("發送失敗", data.detail || "請稍後再試", "error");
+      Swal.fire("Could not send code", data.detail || "Please try again later", "error");
 
       return;
     }
@@ -165,26 +165,26 @@ async function requestCode() {
     document.getElementById("codeArea").style.display = "block";
 
     Swal.fire(
-      "驗證碼已建立",
-      data.dev_code ? `開發測試碼：${data.dev_code}` : "請查看信箱",
+      "Code sent",
+      data.dev_code ? `Development test code: ${data.dev_code}` : "Please check your inbox",
       "success",
     );
 
     let sec = 60;
     const timer = setInterval(() => {
       sec--;
-      btn.textContent = `${sec} 秒後可重送`;
+      btn.textContent = `Resend in ${sec}s`;
 
       if (sec <= 0) {
         clearInterval(timer);
         btn.disabled = false;
-        btn.textContent = "重新發送驗證碼";
+        btn.textContent = "Resend code";
       }
     }, 1000);
   } catch (err) {
-    Swal.fire("發送失敗", "網路連線異常，請稍後再試", "error");
+    Swal.fire("Could not send code", "Network error. Please try again later.", "error");
     btn.disabled = false;
-    btn.textContent = "發送驗證碼";
+    btn.textContent = "Send sign-in code";
   }
 }
 
@@ -194,12 +194,12 @@ async function verifyCode() {
   const btn = document.getElementById("verifyCodeBtn");
 
   if (!email || !code) {
-    Swal.fire("請輸入 Email 與驗證碼");
+    Swal.fire("Please enter your email and verification code");
     return;
   }
 
   btn.disabled = true;
-  btn.textContent = "驗證中...";
+  btn.textContent = "Verifying...";
 
   try {
     const res = await fetch(`${API_BASE}/api/auth/verify-code`, {
@@ -211,9 +211,9 @@ async function verifyCode() {
     const data = await res.json();
 
     if (!res.ok) {
-      Swal.fire("登入失敗", data.detail || "驗證碼錯誤", "error");
+      Swal.fire("Sign-in failed", data.detail || "Invalid verification code", "error");
       btn.disabled = false;
-      btn.textContent = "驗證並登入";
+      btn.textContent = "Verify and sign in";
       return;
     }
 
@@ -222,14 +222,14 @@ async function verifyCode() {
 
     renderAuthState();
 
-    Swal.fire("登入成功", data.user.email, "success");
+    Swal.fire("Signed in", data.user.email, "success");
 
     const modalEl = document.getElementById("loginModal");
     bootstrap.Modal.getInstance(modalEl)?.hide();
   } catch (err) {
-    Swal.fire("登入失敗", "網路連線異常，請稍後再試", "error");
+    Swal.fire("Sign-in failed", "Network error. Please try again later.", "error");
     btn.disabled = false;
-    btn.textContent = "驗證並登入";
+    btn.textContent = "Verify and sign in";
   }
 }
 function openUpgradeModal() {
@@ -242,8 +242,8 @@ const PAYMENT_ENABLED = false;
 function startUpgrade() {
   if (!PAYMENT_ENABLED) {
     Swal.fire({
-      title: "金流審核中",
-      text: "預計 1~3 天內開通，敬請期待 🚀",
+      title: "Billing is in beta",
+      text: "Online checkout is being prepared. Please contact us for early access.",
       icon: "info",
     });
     return;
@@ -300,8 +300,8 @@ async function handlePaymentReturn() {
     } else {
       Swal.fire({
         icon: "info",
-        title: "付款確認中",
-        text: "付款狀態正在更新，請稍後重新整理頁面。",
+        title: "Payment pending",
+        text: "Your payment status is updating. Please refresh again shortly.",
       });
     }
   }
@@ -309,8 +309,8 @@ async function handlePaymentReturn() {
   if (payment === "back") {
     Swal.fire({
       icon: "info",
-      title: "尚未完成付款",
-      text: "您已返回 LUMZone，目前尚未完成升級。",
+      title: "Payment not completed",
+      text: "You returned to LUMZone before completing the upgrade.",
     });
   }
 

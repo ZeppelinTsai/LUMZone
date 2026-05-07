@@ -98,13 +98,13 @@
           const res = await fetch(this.resolveUrl("articles.json"));
 
           if (!res.ok) {
-            throw new Error(`articles.json 載入失敗：HTTP ${res.status}`);
+            throw new Error(`articles.json failed to load: HTTP ${res.status}`);
           }
 
           this.articles = await res.json();
         } catch (err) {
           console.error(err);
-          this.error = err.message || "文章列表載入失敗";
+          this.error = err.message || "Research notes failed to load";
         } finally {
           this.loading = false;
         }

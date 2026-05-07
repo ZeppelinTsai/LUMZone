@@ -48,7 +48,7 @@ function renderHistoryList() {
 
     const textEl = document.createElement("span");
     textEl.className = "history-item-text";
-    textEl.textContent = sess.title || "（無標題）";
+    textEl.textContent = sess.title || "Untitled research";
     textEl.title = sess.title || "";
     textEl.onclick = () => {
       loadSessionUI(sess.id);
@@ -61,10 +61,10 @@ function renderHistoryList() {
     const delBtn = document.createElement("button");
     delBtn.className = "history-del";
     delBtn.innerHTML = "✕";
-    delBtn.title = "刪除此對話";
+    delBtn.title = "Delete this thread";
     delBtn.onclick = (e) => {
       e.stopPropagation();
-      showConfirm(`確定要刪除「${sess.title}」？`, () => {
+      showConfirm(`Delete "${sess.title}"?`, () => {
         deleteSession(sess.id);
         if (currentSessionId === sess.id) {
           currentSessionId = null;
@@ -103,47 +103,47 @@ const CHAT_WELCOME_HTML = `
       <img src="./img/LUMZone.png" alt="LUMZone Logo" />
     </div>
 
-    <h1>LUMZone 建築法規 AI 助理</h1>
+    <h1>California ADU & Zoning AI Assistant</h1>
 
     <p>
-      快速查詢違建、改建、容積率、
-      地下室開挖與室內裝修等建築法規問題。
+      Ask focused ADU and zoning questions, then review structured answers
+      grounded in source citations.
     </p>
 
     <div class="welcome-section-title">
-      🔥 大家最近都在查
+      Popular California ADU Questions
     </div>
 
     <div class="suggestions">
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">⚠️</span>
-        陽台外推算違建嗎？
+        <span class="suggestion-icon">1</span>
+        Can I build a detached ADU on a single-family lot in San Diego?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">🏠</span>
-        頂樓加蓋合法嗎？
+        <span class="suggestion-icon">2</span>
+        What are the typical ADU setback rules in Los Angeles?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">🔨</span>
-        改建需要申請哪些許可？
+        <span class="suggestion-icon">3</span>
+        Does an ADU need parking if the property is near transit?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">🚧</span>
-        地下室開挖幾公尺需要審查？
+        <span class="suggestion-icon">4</span>
+        What height limits apply to a two-story ADU?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">📐</span>
-        容積率怎麼算？
+        <span class="suggestion-icon">5</span>
+        How do lot coverage and floor area limits affect ADU feasibility?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">🚒</span>
-        店面裝修需要消防審查嗎？
+        <span class="suggestion-icon">6</span>
+        Which city rules should I check before submitting an ADU permit?
       </div>
 
     </div>
@@ -155,7 +155,7 @@ const CHAT_INPUT_HTML = `
     <div class="input-wrapper">
       <textarea
         id="userInput"
-        placeholder="輸入您的建築法規問題..."
+        placeholder="Ask an ADU or zoning research question..."
         rows="1"
         onkeydown="handleKey(event)"
         oninput="autoResize(this)"
@@ -166,12 +166,12 @@ const CHAT_INPUT_HTML = `
         </svg>
       </button>
     </div>
-    <div class="disclaimer">本系統提供法規輔助分析，非正式法律意見。</div>
+    <div class="disclaimer">Informational zoning research only. Not legal, architectural, or permit approval advice.</div>
 
     <div class="pricing-note pro-hidden" id="pricingNote">
-      <span>Pro：NT$199/月，每月 150 次 AI 法規查詢</span>
+      <span>Pro: 150 AI zoning research queries per month</span>
       <button class="upgrade-link" onclick="openUpgradeModal()">
-        升級
+        Upgrade
       </button>
     </div>
   </div>`;
@@ -300,7 +300,7 @@ async function loadPage(path) {
 
     mainContent.innerHTML = `
       <div style="padding:40px;">
-        <h2>頁面載入失敗</h2>
+        <h2>Page failed to load</h2>
         <p>${err.message}</p>
       </div>
     `;
@@ -340,7 +340,7 @@ function addMessage(role, content, isTyping = false, keyword = "") {
   if (role === "ai") {
     av.innerHTML = `<img src="./img/LUMZone_36.png" class="avatar-icon" />`;
   } else {
-    av.textContent = "您";
+    av.textContent = "You";
   }
 
   const bbl = document.createElement("div");
@@ -354,7 +354,7 @@ function addMessage(role, content, isTyping = false, keyword = "") {
       </div>
 
       <div class="typing-text" id="typingText">
-        正在搜尋建築法規資料庫...
+        Searching ADU and zoning sources...
       </div>
     </div>
   `;
@@ -365,21 +365,21 @@ function addMessage(role, content, isTyping = false, keyword = "") {
     setTimeout(() => {
       const el = document.getElementById("typingText");
       if (el) {
-        el.textContent = "正在分析相關條文...";
+        el.textContent = "Reviewing relevant source text...";
       }
     }, 4000);
 
     setTimeout(() => {
       const el = document.getElementById("typingText");
       if (el) {
-        el.textContent = "正在整理法規重點...";
+        el.textContent = "Organizing zoning findings...";
       }
     }, 9000);
 
     setTimeout(() => {
       const el = document.getElementById("typingText");
       if (el) {
-        el.textContent = "正在產生 AI 回答...";
+        el.textContent = "Preparing a citation-grounded answer...";
       }
     }, 14000);
   } else {

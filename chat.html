@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="zh-TW">
+<html lang="en">
   <head>
     <link rel="icon" type="image/svg+xml" href="./LUMZone.ico" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="LUMZone 建築法規 AI 工具，快速查詢建築技術規則、消防法與無障礙規範，提供條文來源與摘要，提升查詢效率。"
+      content="California ADU & Zoning AI Assistant for citation-grounded zoning research, ADU eligibility questions, setbacks, parking, height limits, and local permit context."
     />
-    <title>建築法規 AI｜LUMZone 法規查詢工具（附條文來源）</title>
+    <title>California ADU & Zoning AI Assistant | LUMZone</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap"
       rel="stylesheet"
@@ -90,11 +90,11 @@
           </div>
           <div>
             <div class="logo-text">LUMZone</div>
-            <div class="logo-sub">AI Building Regulation Assistant</div>
+            <div class="logo-sub">California ADU & Zoning AI</div>
           </div>
         </div>
         <button onclick="gotoLawSearch()" class="btn btn-primary mb-1">
-          ⚖️ 法條查詢
+          Source Search
         </button>
 
         <button
@@ -106,21 +106,22 @@
           hx-swap="innerHTML show:window:top"
           onclick="if (!window.htmx) gotoBuildLaw();"
         >
-          📚 建築法規知識庫
+          ADU Research Library
         </button>
 
         <button class="btn new-chat-btn" onclick="newChat()">
-          ✦ 新增討論串
+          New Research Thread
         </button>
-        <!-- 資料庫 -->
-        <div class="history-label">歷史紀錄</div>
+        <!-- History -->
+        <div class="history-label">Query History</div>
         <div id="historyList"></div>
         <div class="sidebar-footer">
-          本系統依台灣建築法、消防法及無障礙規範提供參考，
-          實際適用仍請洽主管機關確認。
+          Research assistant for California ADU and zoning questions. Results
+          are informational and should be verified with the local planning
+          department or a qualified professional.
           <br /><br />
 
-          📧 客服聯絡：
+          Contact:
           <a href="mailto:luxandpei@gmail.com">luxandpei@gmail.com</a>
 
           <br /><br />
@@ -132,9 +133,9 @@
               return false;
             "
           >
-            隱私權政策
+            Privacy
           </a>
-          ·
+          |
           <a
             href="#"
             onclick="
@@ -142,9 +143,9 @@
               return false;
             "
           >
-            使用條款
+            Terms
           </a>
-          ·
+          |
           <a
             href="#"
             onclick="
@@ -152,7 +153,7 @@
               return false;
             "
           >
-            免責聲明
+            Disclaimer
           </a>
         </div>
       </div>
@@ -165,7 +166,7 @@
             class="toggle-btn"
             id="toggleBtn"
             onclick="toggleSidebar()"
-            title="收合側邊欄"
+            title="Toggle sidebar"
           >
             <svg viewBox="0 0 20 20" id="toggleIcon">
               <line x1="3" y1="5" x2="17" y2="5" />
@@ -181,14 +182,14 @@
         </div>
         <div class="topbar-actions">
           <span id="userPlan" class="badge bg-primary"></span>
-          <!-- 未登入 -->
+          <!-- Signed out -->
           <div id="authGuest">
             <button class="btn btn-dark btn-sm" onclick="openLoginModal()">
-              登入
+              Sign In
             </button>
           </div>
 
-          <!-- 已登入 -->
+          <!-- Signed in -->
           <div id="authUser" class="dropdown" style="display: none">
             <button
               class="btn p-1 border-0 bg-transparent d-flex align-items-center gap-2"
@@ -213,7 +214,7 @@
                   class="dropdown-item pro-hidden"
                   onclick="openUpgradeModal()"
                 >
-                  升級 Pro
+                  Upgrade to Pro
                 </button>
               </li>
 
@@ -222,7 +223,7 @@
                   class="dropdown-item text-danger"
                   onclick="handleLogout()"
                 >
-                  登出
+                  Sign Out
                 </button>
               </li>
             </ul>
@@ -239,7 +240,9 @@
       >
         <div class="modal-content">
           <div class="modal-header law-modal-header">
-            <h5 class="modal-title law-modal-title" id="lawModalTitle">法條</h5>
+            <h5 class="modal-title law-modal-title" id="lawModalTitle">
+              Source
+            </h5>
             <button
               type="button"
               class="btn-close law-modal-close"
@@ -247,7 +250,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body law-modal-body" id="lawModalBody">載入中…</div>
+          <div class="modal-body law-modal-body" id="lawModalBody">Loading...</div>
           <div class="modal-footer law-modal-footer">
             <a
               class="law-modal-link"
@@ -255,7 +258,7 @@
               href="#"
               target="_blank"
               rel="noopener"
-              >開啟來源</a
+              >Open Source</a
             >
             <div class="law-modal-status" id="lawModalStatus"></div>
           </div>
@@ -268,7 +271,7 @@
       <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content confirm-box">
           <div class="modal-body">
-            <p id="confirmMsg">確定要刪除這筆對話紀錄嗎？</p>
+            <p id="confirmMsg">Delete this research thread?</p>
             <div class="confirm-actions">
               <button
                 type="button"
@@ -276,10 +279,10 @@
                 data-bs-dismiss="modal"
                 onclick="confirmCancel()"
               >
-                取消
+                Cancel
               </button>
               <button type="button" class="confirm-ok" onclick="confirmOk()">
-                刪除
+                Delete
               </button>
             </div>
           </div>
@@ -290,7 +293,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">登入 LUMZone</h5>
+            <h5 class="modal-title">Sign in to LUMZone</h5>
             <button
               type="button"
               class="btn-close"
@@ -302,7 +305,7 @@
             <input
               id="loginEmail"
               class="form-control mb-3"
-              placeholder="輸入 Email"
+              placeholder="Enter your email"
             />
 
             <button
@@ -310,13 +313,13 @@
               class="btn btn-dark w-100"
               onclick="requestCode()"
             >
-              發送驗證碼
+              Send sign-in code
             </button>
             <div id="codeArea" style="display: none">
               <input
                 id="loginCode"
                 class="form-control mt-3"
-                placeholder="輸入 6 位驗證碼"
+                placeholder="Enter 6-digit code"
               />
 
               <button
@@ -324,16 +327,16 @@
                 class="btn btn-dark w-100 mt-2"
                 onclick="verifyCode()"
               >
-                驗證並登入
+                Verify and sign in
               </button>
             </div>
-            <!-- <div class="text-center text-muted my-2">或</div>
+            <!-- <div class="text-center text-muted my-2">or</div>
 
             <button
               class="btn btn-outline-dark w-100"
               onclick="handleGoogleLogin()"
             >
-              使用 Google 登入（未完成）
+              Continue with Google (coming soon)
             </button> -->
           </div>
         </div>
@@ -343,7 +346,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">升級 LUMZone Pro</h5>
+            <h5 class="modal-title">Upgrade to LUMZone Pro</h5>
             <button
               type="button"
               class="btn-close"
@@ -352,21 +355,21 @@
           </div>
 
           <div class="modal-body">
-            <p><strong>Pro 方案：NT$199 / 月</strong></p>
+            <p><strong>Pro plan: $19 / month</strong></p>
             <ul>
-              <li>每月 150 次 AI 建築法規查詢</li>
-              <li>更完整的條件式法規判讀</li>
-              <li>回答附條文來源，降低 AI 幻覺風險</li>
-              <li>節省手動翻法規時間</li>
+              <li>150 AI zoning research queries per month</li>
+              <li>More complete ADU eligibility and zoning checks</li>
+              <li>Citation-grounded answers to reduce unsupported claims</li>
+              <li>Faster review of local planning rules and source documents</li>
             </ul>
             <button class="btn btn-dark w-100" onclick="startUpgrade()">
-              立即升級
+              Upgrade
             </button>
             <div class="text-muted mt-2 small">
-              金流服務申請中，正式開通後即可線上付款。
+              Online billing is being prepared for the beta.
             </div>
             <div class="text-muted mt-2 small">
-              如有問題請聯絡：luxandpei@gmail.com
+              Questions? Contact luxandpei@gmail.com.
             </div>
           </div>
         </div>
@@ -376,7 +379,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">升級成功 🎉</h5>
+            <h5 class="modal-title">Upgrade Complete</h5>
             <button
               type="button"
               class="btn-close"
@@ -384,12 +387,13 @@
             ></button>
           </div>
           <div class="modal-body">
-            <p><strong>您已升級為 LUMZone Pro。</strong></p>
+            <p><strong>You are now on LUMZone Pro.</strong></p>
             <p class="text-muted small">
-              系統已更新您的方案，現在可以繼續使用完整查詢功能。
+              Your plan has been updated. You can continue researching with the
+              full query limit.
             </p>
             <button class="btn btn-dark w-100" data-bs-dismiss="modal">
-              開始使用
+              Start Researching
             </button>
           </div>
         </div>
