@@ -60,7 +60,10 @@ function createAiSpeechButton(content) {
   button.className = "speech-btn";
   setSpeechButtonState(button, false);
 
-  if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+  if (
+    !("speechSynthesis" in window) ||
+    !("SpeechSynthesisUtterance" in window)
+  ) {
     button.disabled = true;
     button.title = "This browser does not support text-to-speech";
     return button;
@@ -128,7 +131,9 @@ function setVoiceListeningState(isListening) {
   voiceIsListening = isListening;
 
   const voiceBtn = document.getElementById("voiceBtn");
-  const wrapper = document.getElementById("userInput")?.closest(".input-wrapper");
+  const wrapper = document
+    .getElementById("userInput")
+    ?.closest(".input-wrapper");
   if (!voiceBtn || !wrapper) return;
 
   voiceBtn.classList.toggle("listening", isListening);
@@ -189,10 +194,16 @@ function startVoiceRecognition(SpeechRecognition, input) {
   };
 
   voiceRecognition.onerror = (event) => {
-    if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+    if (
+      event.error === "not-allowed" ||
+      event.error === "service-not-allowed"
+    ) {
       voiceShouldKeepListening = false;
       setVoiceListeningState(false);
-      addMessage("ai", "Please allow microphone access, then try voice input again.");
+      addMessage(
+        "ai",
+        "Please allow microphone access, then try voice input again.",
+      );
     }
   };
 
@@ -211,7 +222,10 @@ function startVoiceRecognition(SpeechRecognition, input) {
   } catch (err) {
     voiceShouldKeepListening = false;
     setVoiceListeningState(false);
-    addMessage("ai", "Voice input could not start. Please check your browser and microphone permissions.");
+    addMessage(
+      "ai",
+      "Voice input could not start. Please check your browser and microphone permissions.",
+    );
   }
 }
 
@@ -283,16 +297,15 @@ async function sendMessage() {
       if (res.status === 403) {
         Swal.fire({
           icon: "warning",
-          title: "Trial Limit Reached",
+          title: "Beta Limit Reached",
           html: `
-        <div style="line-height:1.8">
-          Upgrade to Pro to continue researching<br>
-          <strong>Pro plan: $19 / month</strong><br>
-          <small>150 AI zoning research queries / source citations / faster rule review</small>
-        </div>
-      `,
-          showCancelButton: true,
-          confirmButtonText: "Upgrade to Pro",
+            <div style="line-height:1.8">
+              You’ve reached the current beta usage limit.<br>
+              <strong>Early beta is currently free.</strong><br>
+              <small>We’re limiting usage while testing accuracy, citations, and server capacity.</small>
+            </div>
+          `,
+          confirmButtonText: "OK",
           cancelButtonText: "Not now",
           confirmButtonColor: "#d6522c",
           heightAuto: false, // ⭐ 重點
