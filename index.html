@@ -458,6 +458,7 @@
       © 2026 LUMZone AI — Currently testing with San Diego ADU regulations.
       Informational only. Not legal, architectural, or permit approval advice.
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       document
         .getElementById("waitlistForm")
@@ -488,11 +489,17 @@
             }
           } catch (err) {
             console.warn("Formspree submit failed:", err);
-            alert(
-              "We could not join the waitlist right now. Please try again.",
-            );
+            await Swal.fire({
+              icon: "error",
+              title: "Submission failed",
+              text: "We could not join the waitlist right now. Please try again.",
+              confirmButtonText: "OK",
+              confirmButtonColor: "#5f8cff",
+              background: "#11182d",
+              color: "#f5f7ff",
+            });
             submitBtn.disabled = false;
-            submitBtn.textContent = "Join Waitlist";
+            submitBtn.textContent = "Check My Property";
             return;
           }
 
