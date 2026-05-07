@@ -213,6 +213,28 @@
       textarea {
         margin-top: 12px;
       }
+      .feedback-box {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 18px;
+        padding: 14px;
+        resize: vertical;
+      }
+      .feedback-box {
+        color: #fff;
+      }
+
+      .feedback-box::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      input[type="email"] {
+        color: #fff;
+      }
+
+      input[type="email"]::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
       textarea::placeholder {
         color: rgba(255, 255, 255, 0.4);
       }
@@ -378,7 +400,7 @@
             Enter your email to get your property checked
           </h2>
 
-          <p class="muted mb-5">
+          <p class="muted mb-2">
             Join the early beta. We'll notify you when California ADU property
             checks are available.
           </p>
@@ -386,8 +408,18 @@
             <div class="col-lg-6">
               <form id="waitlistForm">
                 <input type="hidden" name="source" value="landing-page-v1" />
+                <label class="form-label small text-white mb-1">
+                  Tell us what part of ADU or zoning research feels confusing or
+                  time-consuming.
+                </label>
+                <textarea
+                  name="pain_point"
+                  class="form-control mb-3 feedback-box"
+                  placeholder="What's the most confusing part of ADU or zoning regulations?"
+                  rows="4"
+                ></textarea>
 
-                <div class="d-flex gap-3 flex-column flex-md-row mb-3">
+                <div class="d-flex gap-3 flex-column flex-md-row">
                   <input
                     type="email"
                     name="email"
@@ -400,13 +432,6 @@
                     Join Waitlist
                   </button>
                 </div>
-
-                <textarea
-                  name="pain_point"
-                  class="form-control"
-                  placeholder="What's the most confusing part of ADU regulations?"
-                  rows="4"
-                ></textarea>
               </form>
             </div>
           </div>
@@ -445,7 +470,9 @@
             }
           } catch (err) {
             console.warn("Formspree submit failed:", err);
-            alert("We could not join the waitlist right now. Please try again.");
+            alert(
+              "We could not join the waitlist right now. Please try again.",
+            );
             submitBtn.disabled = false;
             submitBtn.textContent = "Join Waitlist";
             return;
