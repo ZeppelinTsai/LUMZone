@@ -119,7 +119,6 @@ body {
 .new-chat-btn {
   background: var(--accent);
   color: white;
-  margin-bottom: 24px;
 }
 .new-chat-btn:hover {
   background: var(--accent);

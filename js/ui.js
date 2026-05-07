@@ -36,6 +36,13 @@ function toggleSidebar() {
   }
 }
 
+function closeSidebar() {
+  if (!isMobile()) return;
+
+  sidebar.classList.add("collapsed");
+  overlay.classList.remove("visible");
+}
+
 // ── Render history sidebar ────────────────────────────────────────────────────
 function renderHistoryList() {
   const list = document.getElementById("historyList");
@@ -52,10 +59,7 @@ function renderHistoryList() {
     textEl.title = sess.title || "";
     textEl.onclick = () => {
       loadSessionUI(sess.id);
-      if (isMobile()) {
-        sidebar.classList.add("collapsed");
-        overlay.classList.remove("visible");
-      }
+      closeSidebar();
     };
 
     const delBtn = document.createElement("button");
@@ -218,6 +222,7 @@ function newChat() {
   lastSourceBySid = new Map();
   ensureChatUI(true);
   renderHistoryList();
+  closeSidebar();
   document.getElementById("userInput")?.focus();
 }
 function showWelcome() {
@@ -242,6 +247,7 @@ function gotoLawSearch() {
 }
 async function loadPage(path) {
   const mainContent = document.getElementById("mainContent");
+  closeSidebar();
 
   try {
     const res = await fetch(path);
