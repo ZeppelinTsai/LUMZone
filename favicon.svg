@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 背景圓角方塊 -->
+  <rect width="64" height="64" rx="14" fill="#1a1a2e"/>
+  
+  <!-- 建築柱子左 -->
+  <rect x="10" y="22" width="7" height="28" rx="2" fill="#c8522a"/>
+  <!-- 建築柱子右 -->
+  <rect x="47" y="22" width="7" height="28" rx="2" fill="#c8522a"/>
+  <!-- 建築柱子中 -->
+  <rect x="28.5" y="22" width="7" height="28" rx="2" fill="#c8522a"/>
+  
+  <!-- 屋頂三角 -->
+  <polygon points="32,8 58,24 6,24" fill="#c8522a"/>
+  <!-- 屋頂亮面 -->
+  <polygon points="32,11 55,24 9,24" fill="#d4643a"/>
+  
+  <!-- 底座 -->
+  <rect x="6" y="50" width="52" height="6" rx="2" fill="#c8522a"/>
+  
+  <!-- 頂部小圓點裝飾 -->
+  <circle cx="32" cy="8" r="3" fill="#f5f0e8"/>
+</svg>

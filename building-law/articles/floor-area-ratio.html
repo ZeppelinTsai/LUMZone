@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      容積率怎麼算？完整計算方式＋範例｜建蔽率 vs 容積率一篇看懂｜LUMArch
+    </title>
+
+    <meta
+      name="description"
+      content="容積率怎麼算？建蔽率和容積率差在哪？本文用白話解釋土地可建範圍、建築使用總量、免計容積與查詢方式，並提供實際計算範例。"
+    />
+
+    <meta
+      name="keywords"
+      content="容積率,容積率怎麼算,建蔽率,建蔽率容積率差異,免計容積,陽台免計容積,土地使用分區,都市計畫"
+    />
+
+    <meta
+      property="og:title"
+      content="容積率怎麼算？建蔽率 vs 容積率一篇看懂｜LUMArch"
+    />
+    <meta
+      property="og:description"
+      content="用白話看懂容積率公式、建蔽率差異、免計容積與查詢方式。"
+    />
+    <meta property="og:type" content="article" />
+
+    <link rel="icon" href="../../LUMArch.ico" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../../css/style.css" />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
+      integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="../../js/page-router.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "容積率怎麼算？完整計算方式＋範例｜建蔽率 vs 容積率一篇看懂",
+        "description": "用白話解釋容積率、建蔽率、免計容積與土地使用分區查詢方式。",
+        "author": {
+          "@type": "Organization",
+          "name": "LUMArch"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "LUMArch"
+        },
+        "inLanguage": "zh-TW"
+      }
+    </script>
+  </head>
+
+  <body class="blog-body">
+    <main class="blog-page article-page" data-page-root="./building-law/">
+      <nav class="blog-nav" aria-label="頁面導覽">
+        <a
+          href="../index.html"
+          class="back-link"
+          data-main-link="./building-law/index.html"
+        >
+          回到知識庫
+        </a>
+        <span>LUMArch 建築法規整理</span>
+      </nav>
+
+      <article class="article-body">
+        <p class="blog-kicker">土地開發</p>
+
+        <h1>容積率怎麼算？完整計算方式＋範例</h1>
+
+        <p class="article-lead">
+          買房、買地、老屋改建或評估土地開發時，最常聽到的兩個名詞就是
+          <strong>建蔽率</strong> 和 <strong>容積率</strong>。
+          簡單說，建蔽率在管「土地上可以被建築遮住多少」，
+          容積率則在管「整棟建築總共可以使用多少樓地板面積」。
+          這篇會用白話和範例，帶你一次看懂。
+        </p>
+      </article>
+
+      <section class="article-card">
+        <h2>先講結論：建蔽率 vs 容積率差在哪？</h2>
+
+        <p>你可以先用一句話記：</p>
+
+        <div class="formula">
+          建蔽率看「土地被蓋住多少」<br />
+          容積率看「建築總共能蓋多少」
+        </div>
+
+        <ul>
+          <li>
+            <strong>建蔽率：</strong>
+            控制建築物在基地上的水平投影面積，也就是土地被建築遮蔽的比例。
+          </li>
+          <li>
+            <strong>容積率：</strong>
+            控制建築物的總樓地板面積，也就是整棟建築可以使用的總量。
+          </li>
+        </ul>
+
+        <p>
+          所以，建蔽率比較像是在問： 「這塊地的一樓最多可以蓋多大？」
+          容積率則是在問： 「這塊地整棟樓加起來最多可以蓋多少坪？」
+        </p>
+      </section>
+
+      <section class="article-card">
+        <h2>為什麼需要建蔽率和容積率？</h2>
+
+        <p>
+          如果每一塊土地都可以完全蓋滿，而且想蓋多高就蓋多高，
+          都市很快就會出現很多問題。
+        </p>
+
+        <ul>
+          <li>建築物之間距離太近，日照不足</li>
+          <li>通風變差，居住品質下降</li>
+          <li>道路、排水、消防與公共設施負荷過高</li>
+          <li>人口密度過高，生活環境變差</li>
+          <li>鄰近土地與建築受到遮蔽或壓迫</li>
+        </ul>
+
+        <p>
+          因此，都市計畫與建築管制會透過建蔽率和容積率，
+          一邊限制土地可以被建築覆蓋的範圍，
+          一邊限制整體建築量，讓都市維持基本的日照、通風與公共安全。
+        </p>
+      </section>
+
+      <section class="article-card">
+        <h2>容積率公式怎麼算？</h2>
+
+        <div class="formula">容積率 = 容積總樓地板面積 ÷ 基地面積 × 100%</div>
+
+        <p>換成比較直覺的說法：</p>
+
+        <div class="formula">可蓋總樓地板面積 = 基地面積 × 法定容積率</div>
+
+        <div class="example-box">
+          <strong>範例：</strong>
+
+          <p>假設一塊土地：</p>
+
+          <ul>
+            <li>基地面積：100 坪</li>
+            <li>法定容積率：200%</li>
+          </ul>
+
+          <p>那麼可蓋的容積總樓地板面積約為：</p>
+
+          <div class="formula">100 坪 × 200% = 200 坪</div>
+
+          <p>也就是說，這塊土地理論上最多可以蓋約 200 坪的容積樓地板面積。</p>
+        </div>
+      </section>
+
+      <section class="article-card">
+        <h2>建蔽率公式怎麼算？</h2>
+
+        <div class="formula">建蔽率 = 建築面積 ÷ 基地面積 × 100%</div>
+
+        <div class="example-box">
+          <strong>範例：</strong>
+
+          <p>假設一塊土地：</p>
+
+          <ul>
+            <li>基地面積：100 坪</li>
+            <li>法定建蔽率：50%</li>
+          </ul>
+
+          <p>那麼建築物在地面上的建築面積上限約為：</p>
+
+          <div class="formula">100 坪 × 50% = 50 坪</div>
+
+          <p>
+            也就是說，這棟建築在地面層通常不能把整塊地都蓋滿， 最多約能蓋 50
+            坪的建築面積。
+          </p>
+        </div>
+      </section>
+
+      <section class="article-card">
+        <h2>同一塊地，建蔽率和容積率怎麼一起看？</h2>
+
+        <p>建蔽率和容積率通常要一起看，才知道土地大概能怎麼蓋。</p>
+
+        <div class="example-box">
+          <strong>範例：</strong>
+
+          <ul>
+            <li>基地面積：100 坪</li>
+            <li>建蔽率：50%</li>
+            <li>容積率：200%</li>
+          </ul>
+
+          <p>代表：</p>
+
+          <ul>
+            <li>地面建築面積上限：約 50 坪</li>
+            <li>容積總樓地板面積上限：約 200 坪</li>
+          </ul>
+
+          <p>如果每層都蓋接近 50 坪， 理論上大約可以蓋 4 層左右：</p>
+
+          <div class="formula">200 坪 ÷ 50 坪 = 約 4 層</div>
+
+          <p>
+            但實際能不能這樣蓋，還要看高度限制、退縮、停車、道路寬度、
+            防火避難、結構設計與地方規定。
+          </p>
+        </div>
+      </section>
+
+      <section class="article-card">
+        <h2>哪些空間可能不算在容積率裡？</h2>
+
+        <p>
+          很多人以為「建築物裡所有面積都會算進容積率」，
+          但實務上並不是所有空間都一定計入容積總樓地板面積。
+        </p>
+
+        <p>
+          依建築技術規則，部分空間在符合條件時，可能可以不計入容積， 常見例如：
+        </p>
+
+        <ul>
+          <li>部分陽台面積</li>
+          <li>共同使用樓梯間、昇降機間的梯廳</li>
+          <li>部分機電設備空間</li>
+          <li>安全梯、緊急昇降機相關空間</li>
+          <li>依法設置的停車空間</li>
+          <li>部分管理委員會使用空間</li>
+        </ul>
+
+        <div class="warning">
+          <p>
+            但要注意：免計容積不是「想不算就不算」。
+            例如陽台、梯廳等項目通常會有比例或條件限制。
+            超過限制的部分，仍可能需要計入容積。
+          </p>
+        </div>
+
+        <p>
+          例如建築技術規則建築設計施工編第 162 條，
+          對陽台、梯廳、機電設備、停車空間等是否計入容積總樓地板面積，
+          有更細的計算規定。
+        </p>
+      </section>
+
+      <section class="article-card">
+        <h2>陽台到底算不算容積？</h2>
+
+        <p>
+          陽台是最容易被誤解的項目。
+          它同時可能牽涉「建蔽率」和「容積率」兩種不同判斷。
+        </p>
+
+        <ul>
+          <li>
+            從建蔽率角度看：
+            陽台是否計入建築面積，會和突出深度、投影範圍等條件有關。
+          </li>
+          <li>
+            從容積率角度看：
+            陽台是否計入容積總樓地板面積，則會和該層樓地板面積比例有關。
+          </li>
+        </ul>
+
+        <p>
+          所以不能簡化成「陽台 2 公尺內一定都不算容積」。 比較安全的說法是：
+          陽台在符合特定條件與比例限制時，可能有免計建築面積或免計容積的效果；
+          但超過規定範圍時，仍可能需要計入。
+        </p>
+      </section>
+
+      <section class="article-card">
+        <h2>容積率越高越好嗎？</h2>
+
+        <p>
+          對土地開發來說，容積率越高，通常代表可以蓋出更多可銷售或可使用的樓地板面積，
+          因此土地開發價值可能較高。
+        </p>
+
+        <p>但從居住與都市品質來看，容積率過高也可能帶來：</p>
+
+        <ul>
+          <li>人口密度提高</li>
+          <li>棟距縮小</li>
+          <li>日照與通風變差</li>
+          <li>交通與公共設施負擔增加</li>
+          <li>生活品質下降</li>
+        </ul>
+
+        <p>
+          因此容積率不是單純越高越好，
+          而是都市計畫在開發利益與公共環境之間取得平衡的工具。
+        </p>
+      </section>
+
+      <section class="article-card">
+        <h2>怎麼查土地容積率？</h2>
+
+        <p>查容積率時，第一步通常是先確認土地屬於：</p>
+
+        <ul>
+          <li>都市計畫內土地</li>
+          <li>非都市土地</li>
+        </ul>
+
+        <h3>都市計畫內土地</h3>
+
+        <p>如果土地位於都市計畫區內，通常要查：</p>
+
+        <ul>
+          <li>都市計畫書</li>
+          <li>土地使用分區</li>
+          <li>地方政府都市發展局或都發處資料</li>
+          <li>各縣市土地使用分區管制規定</li>
+        </ul>
+
+        <p>
+          都市計畫地區各土地使用分區的容積率，通常會依都市計畫書所載規定判斷。
+        </p>
+
+        <h3>非都市土地</h3>
+
+        <p>如果是非都市土地，則要確認：</p>
+
+        <ul>
+          <li>土地使用分區</li>
+          <li>土地使用地類別</li>
+          <li>編定用途</li>
+          <li>非都市土地使用管制規則</li>
+        </ul>
+
+        <p>
+          不同土地類別與使用目的，能不能建築、可以蓋多少， 都可能有不同限制。
+        </p>
+      </section>
+
+      <section class="article-card">
+        <h2>實務上還會影響可蓋面積的因素</h2>
+
+        <p>
+          即使知道建蔽率與容積率，也不代表一定能蓋到理論上限。
+          實務上還可能受到下列因素影響：
+        </p>
+
+        <ul>
+          <li>道路寬度</li>
+          <li>建築線與退縮規定</li>
+          <li>高度限制</li>
+          <li>防火避難規定</li>
+          <li>停車空間需求</li>
+          <li>基地形狀與臨路條件</li>
+          <li>容積移轉、容積獎勵或增額容積</li>
+          <li>地方政府審查實務</li>
+        </ul>
+
+        <p>所以最終可建規模，通常仍需要建築師依基地條件進行正式評估。</p>
+      </section>
+
+      <section class="article-card warning">
+        <h2>常見誤解整理</h2>
+
+        <ul>
+          <li>
+            <strong>誤解 1：</strong>
+            容積率 200% 就一定可以蓋滿 200 坪。
+            <br />
+            實際仍可能受道路、退縮、高度、停車與設計限制影響。
+          </li>
+          <li>
+            <strong>誤解 2：</strong>
+            陽台 2 公尺以內一定不算容積。
+            <br />
+            陽台是否計入建築面積或容積，需要分別依建蔽率與容積率規定判斷。
+          </li>
+          <li>
+            <strong>誤解 3：</strong>
+            建蔽率和容積率只要看一個就好。
+            <br />
+            兩者用途不同，必須一起看才知道土地大概能怎麼蓋。
+          </li>
+        </ul>
+      </section>
+
+      <section class="article-card">
+        <h2>FAQ：容積率與建蔽率常見問題</h2>
+
+        <h3>Q1：容積率可以自己增加嗎？</h3>
+        <p>
+          一般不能任意增加。
+          但特定情況下可能透過容積獎勵、容積移轉、都市更新或危老重建等制度增加可建容積。
+          實際仍須依個案條件與主管機關審查。
+        </p>
+
+        <h3>Q2：公設會算容積嗎？</h3>
+        <p>
+          部分共同使用空間可能在符合條件時不計入容積，
+          但不是所有公設都一定免計。 仍需依建築技術規則與個案設計判斷。
+        </p>
+
+        <h3>Q3：建蔽率低是不是就不能蓋很多？</h3>
+        <p>
+          不一定。 建蔽率低代表單層占地受限，
+          但如果容積率高，仍可能透過增加樓層來使用容積。
+          不過仍要看高度、道路與其他法規限制。
+        </p>
+
+        <h3>Q4：查到土地使用分區後，就知道能蓋多少了嗎？</h3>
+        <p>
+          土地使用分區是重要起點，
+          但還要搭配都市計畫書、建築技術規則、地方自治條例與基地條件綜合判斷。
+        </p>
+      </section>
+
+      <section class="article-card source">
+        <h2>法規與資料來源</h2>
+
+        <ul>
+          <li>
+            建築技術規則建築設計施工編第 162 條：
+            關於容積總樓地板面積、陽台、梯廳、機電設備與停車空間等計算規定。
+          </li>
+          <li>
+            建築技術規則建築設計施工編第一章用語定義：
+            關於建築面積、樓地板面積等基礎定義。
+          </li>
+          <li>
+            都市計畫法與各都市計畫書：
+            關於都市計畫地區土地使用分區與容積率管制。
+          </li>
+          <li>
+            各地方政府土地使用分區管制規定：
+            實際建蔽率、容積率仍可能依縣市與分區不同而不同。
+          </li>
+        </ul>
+
+        <p>
+          本文內容僅供法規理解與學習參考，
+          實際基地條件仍應以最新法規、都市計畫書、地方主管機關與建築師專業判斷為準。
+        </p>
+      </section>
+
+      <section class="cta">
+        <h2>不知道你的土地適用哪種建蔽率或容積率？</h2>
+
+        <p>
+          可以直接使用 LUMArch AI， 用自然語言描述你的地址、基地條件或改建問題，
+          讓 AI 協助你整理可能相關的法規方向。
+        </p>
+
+        <a href="../../index.html" target="_top"> 開始使用 AI 查詢 </a>
+      </section>
+    </main>
+  </body>
+</html>

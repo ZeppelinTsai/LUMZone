@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>California ADU Assistant | Zoning AI</title>
+
+    <meta
+      name="description"
+      content="Check California ADU Rules in Seconds. Simple zoning answers powered by AI."
+    />
+
+    <meta
+      name="keywords"
+      content="California ADU, zoning law AI, ADU assistant, zoning regulations, permit AI"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: #0b1020;
+        color: #f5f7ff;
+        font-family: Inter, system-ui, sans-serif;
+        overflow-x: hidden;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        padding: 80px 0;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(
+          circle,
+          rgba(87, 154, 255, 0.18),
+          transparent 70%
+        );
+        top: -200px;
+        right: -200px;
+        z-index: 0;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(88, 255, 194, 0.12),
+          transparent 70%
+        );
+        bottom: -200px;
+        left: -200px;
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .badge-custom {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 14px;
+        margin-bottom: 24px;
+        backdrop-filter: blur(10px);
+      }
+
+      h1 {
+        font-size: clamp(42px, 7vw, 72px);
+        font-weight: 800;
+        line-height: 1.05;
+        margin-bottom: 24px;
+      }
+
+      .hero p {
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 20px;
+        line-height: 1.8;
+        max-width: 700px;
+      }
+
+      .cta-group {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+      }
+
+      .btn-main {
+        background: linear-gradient(135deg, #5f8cff, #6be6ff);
+        border: none;
+        color: white;
+        padding: 14px 28px;
+        border-radius: 14px;
+        font-weight: 700;
+        transition: 0.25s;
+      }
+
+      .btn-main:hover {
+        transform: translateY(-2px);
+        opacity: 0.95;
+      }
+
+      .btn-outline-custom {
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: white;
+        padding: 14px 28px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(8px);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 32px;
+        backdrop-filter: blur(18px);
+        margin-top: 80px;
+      }
+
+      .chat-box {
+        background: #11182d;
+        border-radius: 20px;
+        padding: 24px;
+        margin-top: 32px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .chat-user {
+        color: #7eb8ff;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .chat-ai {
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.8;
+      }
+
+      .section {
+        padding: 100px 0;
+      }
+
+      .section-title {
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 24px;
+      }
+
+      .muted {
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.9;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        padding: 28px;
+        height: 100%;
+      }
+
+      .feature-card h3 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+
+      .waitlist-box {
+        background: linear-gradient(
+          135deg,
+          rgba(95, 140, 255, 0.16),
+          rgba(91, 255, 220, 0.08)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        padding: 48px;
+        text-align: center;
+      }
+      input {
+        height: 56px;
+      }
+      input,
+      textarea {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: white !important;
+        border-radius: 14px !important;
+      }
+
+      input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+      textarea {
+        margin-top: 12px;
+      }
+      textarea::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+      }
+      footer {
+        padding: 40px 0;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="badge-custom">California ADU + Zoning AI</div>
+
+        <h1>
+          Can You Build an ADU Here?
+          <br />
+          Check California zoning and ADU rules in seconds.
+        </h1>
+
+        <p>
+          Every California city has different ADU rules. Most homeowners don't
+          know where to start. We turn complex city regulations into simple
+          answers for homeowners, investors, and architects.
+        </p>
+
+        <div class="cta-group">
+          <a href="#waitlist" class="btn btn-main"> Join Waitlist </a>
+
+          <a href="#demo" class="btn btn-outline-custom"> View Demo </a>
+        </div>
+
+        <!-- DEMO -->
+        <div class="glass-card" id="demo">
+          <h3 class="mb-4">Example Question</h3>
+
+          <div class="chat-box">
+            <div class="chat-user">User:</div>
+
+            <div class="chat-ai mb-4">
+              Can I build a detached ADU on my property in San Diego?
+            </div>
+
+            <div class="chat-user">AI:</div>
+
+            <div class="chat-ai">
+              Yes — detached ADUs are generally allowed on single-family lots
+              under current San Diego ADU regulations.
+
+              <br /><br />
+
+              Key restrictions may include:
+              <br />
+              • Minimum rear setback requirements
+              <br />
+              • Maximum ADU size limits
+              <br />
+              • Height restrictions
+              <br />
+              • Parking exceptions near transit zones
+              <br />
+              • Overlay district requirements
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ADDRESS CHECK -->
+    <div class="container">
+      <div class="glass-card mt-4">
+        <div class="d-flex gap-3 flex-column flex-md-row">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="123 Main St, San Diego, CA"
+          />
+
+          <button
+            type="button"
+            class="btn btn-main"
+            onclick="
+              const addr = this.previousElementSibling.value;
+              if (addr) {
+                document.querySelector('[name=pain_point]').placeholder =
+                  'Checking: ' + addr + ' — enter your email to get results';
+              }
+              document
+                .getElementById('waitlist')
+                .scrollIntoView({ behavior: 'smooth' });
+            "
+          >
+            Check Eligibility →
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- PROBLEM -->
+    <section class="section">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="feature-card">
+              <h3>Every City Is Different</h3>
+
+              <p class="muted">
+                Los Angeles, San Diego, San Jose — every California city has
+                different zoning and ADU rules.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="feature-card">
+              <h3>Regulations Are Hard To Read</h3>
+
+              <p class="muted">
+                Most zoning information lives inside PDFs, municipal websites,
+                and legal documents.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="feature-card">
+              <h3>People Waste Weeks Researching</h3>
+
+              <p class="muted">
+                Homeowners and investors spend hours searching Reddit, calling
+                city offices, and still feel unsure.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTION -->
+    <section class="section">
+      <div class="container text-center">
+        <h2 class="section-title">Ask Questions Like a Human</h2>
+
+        <p class="muted mx-auto" style="max-width: 900px">
+          Instead of manually reading zoning documents, simply ask questions in
+          plain English.
+
+          <br /><br />
+
+          We explain: setbacks, parking requirements, height limits, ADU
+          eligibility, permit considerations, and more.
+        </p>
+      </div>
+    </section>
+
+    <!-- WAITLIST -->
+    <section class="section" id="waitlist">
+      <div class="container">
+        <div class="waitlist-box">
+          <h2 class="section-title">
+            Enter your email to get your property checked
+          </h2>
+
+          <p class="muted mb-5">
+            Join the early beta. We’ll notify you when California ADU property
+            checks are available.
+          </p>
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+              <form action="https://formspree.io/f/xkoyzedz" method="POST">
+                <input type="hidden" name="source" value="landing-page-v1" />
+
+                <div class="d-flex gap-3 flex-column flex-md-row mb-3">
+                  <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    required
+                  />
+
+                  <button type="submit" class="btn btn-main">
+                    Join Waitlist
+                  </button>
+                </div>
+
+                <textarea
+                  name="pain_point"
+                  class="form-control"
+                  placeholder="What's the most confusing part of ADU regulations?"
+                  rows="4"
+                ></textarea>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2026 LUMZone AI — California Zoning Research</footer>
+  </body>
+</html>
