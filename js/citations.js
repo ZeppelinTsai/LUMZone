@@ -300,7 +300,7 @@ function reportIssue(btn) {
   const text = bubble.innerText;
 
   const mail = "luxandpei@gmail.com";
-  const subject = encodeURIComponent("LUMArch 問題回報");
+  const subject = encodeURIComponent("LUMZone 問題回報");
   const body = encodeURIComponent(`以下是系統回答：\n\n${text}`);
 
   window.location.href = `mailto:${mail}?subject=${subject}&body=${body}`;

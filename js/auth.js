@@ -48,14 +48,14 @@ async function handleEmailLogin() {
   }
 
   localStorage.setItem(TOKEN_KEY, data.token);
-  localStorage.setItem("lumarch_user", JSON.stringify(data.user));
+  localStorage.setItem("lumzone_user", JSON.stringify(data.user));
 
   renderAuthState();
 }
 
 function getUser() {
   try {
-    return JSON.parse(localStorage.getItem("lumarch_user") || "null");
+    return JSON.parse(localStorage.getItem("lumzone_user") || "null");
   } catch {
     return null;
   }
@@ -63,7 +63,7 @@ function getUser() {
 
 function handleLogout() {
   localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem("lumarch_user");
+  localStorage.removeItem("lumzone_user");
   renderAuthState();
 }
 
@@ -124,7 +124,7 @@ async function handleEmailLoginModal() {
   }
 
   localStorage.setItem(TOKEN_KEY, data.token);
-  localStorage.setItem("lumarch_user", JSON.stringify(data.user));
+  localStorage.setItem("lumzone_user", JSON.stringify(data.user));
 
   Swal.fire("登入成功", data.user.email, "success");
 
@@ -218,7 +218,7 @@ async function verifyCode() {
     }
 
     localStorage.setItem(TOKEN_KEY, data.token);
-    localStorage.setItem("lumarch_user", JSON.stringify(data.user));
+    localStorage.setItem("lumzone_user", JSON.stringify(data.user));
 
     renderAuthState();
 
@@ -271,14 +271,14 @@ async function refreshUser() {
 
   if (!res.ok) {
     localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem("lumarch_user");
+    localStorage.removeItem("lumzone_user");
     renderAuthState();
     return null;
   }
 
   const data = await res.json();
 
-  localStorage.setItem("lumarch_user", JSON.stringify(data.user));
+  localStorage.setItem("lumzone_user", JSON.stringify(data.user));
   renderAuthState();
 
   return data.user;
@@ -310,7 +310,7 @@ async function handlePaymentReturn() {
     Swal.fire({
       icon: "info",
       title: "尚未完成付款",
-      text: "您已返回 LUMArch，目前尚未完成升級。",
+      text: "您已返回 LUMZone，目前尚未完成升級。",
     });
   }
 

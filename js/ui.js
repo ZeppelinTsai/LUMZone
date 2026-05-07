@@ -100,10 +100,10 @@ const CHAT_WELCOME_HTML = `
   <div class="welcome" id="welcome">
 
     <div class="welcome-icon">
-      <img src="./img/LUMArch.png" alt="LUMArch Logo" />
+      <img src="./img/LUMZone.png" alt="LUMZone Logo" />
     </div>
 
-    <h1>LUMArch 建築法規 AI 助理</h1>
+    <h1>LUMZone 建築法規 AI 助理</h1>
 
     <p>
       快速查詢違建、改建、容積率、
@@ -237,7 +237,7 @@ function gotoLawSearch() {
   const mainContent = document.getElementById("mainContent");
   mainContent.innerHTML = `
     <iframe
-      src="https://lumarch-back.onrender.com/law/"
+      src="https://lumzone-back.onrender.com/law/"
       style="width: 100%; height: 100%; border: none;"
     ></iframe>
   `;
@@ -338,7 +338,7 @@ function addMessage(role, content, isTyping = false, keyword = "") {
   const av = document.createElement("div");
   av.className = `avatar ${role === "ai" ? "ai" : "user-av"}`;
   if (role === "ai") {
-    av.innerHTML = `<img src="./img/LUMArch_36.png" class="avatar-icon" />`;
+    av.innerHTML = `<img src="./img/LUMZone_36.png" class="avatar-icon" />`;
   } else {
     av.textContent = "您";
   }
@@ -389,7 +389,11 @@ function addMessage(role, content, isTyping = false, keyword = "") {
   div.appendChild(av);
   div.appendChild(bbl);
 
-  if (role === "ai" && !isTyping && typeof createAiSpeechButton === "function") {
+  if (
+    role === "ai" &&
+    !isTyping &&
+    typeof createAiSpeechButton === "function"
+  ) {
     const actions = document.createElement("div");
     actions.className = "message-actions";
     actions.appendChild(createAiSpeechButton(content));
