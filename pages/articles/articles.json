@@ -3,18 +3,18 @@
     "tag": "San Diego ADU",
     "title": "San Diego ADU Setback Rules Explained",
     "description": "Learn how rear setbacks, side yard requirements, and fire hazard zones affect detached ADU construction in San Diego.",
-    "url": "./pages/articles/san-diego-adu-setbacks.html"
+    "url": "./san-diego-adu-setbacks.html"
   },
   {
     "tag": "Parking Rules",
     "title": "Do ADUs Need Parking Near Transit?",
     "description": "Explore California ADU parking exemptions and how transit zones can change permit requirements.",
-    "url": "./pages/articles/parking-near-transit.html"
+    "url": "./parking-near-transit.html"
   },
   {
     "tag": "ADU Feasibility",
     "title": "What Is the Maximum ADU Size in San Diego?",
     "description": "Understand size limits, conversion exceptions, and zoning constraints affecting detached and attached ADUs.",
-    "url": "./pages/articles/max-adu-size-san-diego.html"
+    "url": "./max-adu-size-san-diego.html"
   }
 ]
