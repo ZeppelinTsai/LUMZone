@@ -169,9 +169,9 @@ const CHAT_INPUT_HTML = `
     <div class="disclaimer">Informational zoning research only. Not legal, architectural, or permit approval advice.</div>
 
     <div class="pricing-note pro-hidden" id="pricingNote">
-      <span>Pro: 150 AI zoning research queries per month</span>
+      <span>Early Beta Access — free during testing</span>
       <button class="upgrade-link" onclick="openUpgradeModal()">
-        Upgrade
+        Learn More
       </button>
     </div>
   </div>`;
@@ -230,9 +230,7 @@ function showWelcome() {
 
   messages.innerHTML = CHAT_WELCOME_HTML;
 }
-function gotoBuildLaw() {
-  loadPage("./building-law/index.html");
-}
+
 function gotoLawSearch() {
   const mainContent = document.getElementById("mainContent");
   mainContent.innerHTML = `

@@ -415,8 +415,8 @@
     </section>
 
     <footer>
-      (c) 2026 LUMZone AI - California ADU zoning research. Informational only,
-      not legal, architectural, or permit approval advice.
+      © 2026 LUMZone AI — Currently testing with San Diego ADU regulations.
+      Informational only. Not legal, architectural, or permit approval advice.
     </footer>
     <script>
       document
@@ -443,7 +443,11 @@
             console.warn("Formspree submit failed:", err);
           }
 
-          window.location.href = "./chat.html";
+          const email = String(formData.get("email") || "").trim();
+          const chatUrl = new URL("./chat.html", window.location.href);
+          if (email) chatUrl.searchParams.set("email", email);
+
+          window.location.href = chatUrl.toString();
         });
     </script>
   </body>

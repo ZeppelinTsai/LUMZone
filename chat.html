@@ -94,19 +94,7 @@
           </div>
         </div>
         <button onclick="gotoLawSearch()" class="btn btn-primary mb-1">
-          Source Search
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-success mb-1"
-          hx-get="./building-law/index.html"
-          hx-target="#mainContent"
-          hx-select=".blog-page"
-          hx-swap="innerHTML show:window:top"
-          onclick="if (!window.htmx) gotoBuildLaw();"
-        >
-          ADU Research Library
+          Research Library
         </button>
 
         <button class="btn new-chat-btn" onclick="newChat()">
@@ -214,7 +202,7 @@
                   class="dropdown-item pro-hidden"
                   onclick="openUpgradeModal()"
                 >
-                  Upgrade to Pro
+                  Beta Access
                 </button>
               </li>
 
@@ -348,7 +336,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Upgrade to LUMZone Pro</h5>
+            <h5 class="modal-title">Early Beta Access</h5>
             <button
               type="button"
               class="btn-close"
@@ -357,22 +345,14 @@
           </div>
 
           <div class="modal-body">
-            <p><strong>Early Beta Access</strong></p>
-            <ul>
-              <li>Free during beta testing</li>
-              <li>Try AI zoning research with source citations</li>
-              <li>Help us improve California ADU eligibility checks</li>
-              <li>Currently optimized for San Diego ADU regulations</li>
-            </ul>
-
+            <p><strong>You can now test the LUMZone beta.</strong></p>
+            <p class="text-muted small">
+              Ask California ADU and zoning questions, then review
+              citation-grounded answers.
+            </p>
             <button class="btn btn-dark w-100" data-bs-dismiss="modal">
-              Continue Testing
+              Start Researching
             </button>
-
-            <div class="text-muted mt-2 small">
-              Future paid plans may include higher usage limits,
-              property-specific checks, and advanced planning tools.
-            </div>
 
             <div class="text-muted mt-2 small">
               Questions? Contact luxandpei@gmail.com.
@@ -385,21 +365,26 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Upgrade Complete</h5>
+            <h5 class="modal-title">Beta Access Enabled</h5>
+
             <button
               type="button"
               class="btn-close"
               data-bs-dismiss="modal"
             ></button>
           </div>
+
           <div class="modal-body">
-            <p><strong>You are now on LUMZone Pro.</strong></p>
-            <p class="text-muted small">
-              Your plan has been updated. You can continue researching with the
-              full query limit.
+            <p>
+              <strong>You can now continue testing the LUMZone beta.</strong>
             </p>
+
+            <p class="text-muted small">
+              Thank you for helping improve California ADU and zoning research.
+            </p>
+
             <button class="btn btn-dark w-100" data-bs-dismiss="modal">
-              Start Researching
+              Continue Research
             </button>
           </div>
         </div>

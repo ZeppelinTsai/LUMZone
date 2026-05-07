@@ -235,7 +235,10 @@ async function sendMessage() {
   setupVoiceInput();
 
   if (!getToken()) {
-    addMessage("ai", "Please sign in before starting a zoning research query.");
+    addMessage(
+      "ai",
+      "Sign in to continue using the LUMZone beta and save your research history.",
+    );
     return;
   }
   const input = document.getElementById("userInput");
@@ -375,6 +378,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   await refreshUser();
 
   renderAuthState();
+
+  prefillLoginEmailFromQuery();
 
   handlePaymentReturn();
 });

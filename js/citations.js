@@ -184,14 +184,14 @@ function formatMessage(text, keyword, role = "ai") {
   const raw = (text || "").trim();
   if (!raw) return "";
   const ok =
-    ((raw.includes("主題:") &&
+    (raw.includes("主題:") &&
       raw.includes("摘要:") &&
       raw.includes("詳細說明:") &&
       raw.includes("參考來源:")) ||
-      (raw.includes("Topic:") &&
-        raw.includes("Summary:") &&
-        raw.includes("Details:") &&
-        raw.includes("Sources:")));
+    (raw.includes("Topic:") &&
+      raw.includes("Summary:") &&
+      raw.includes("Details:") &&
+      raw.includes("Sources:"));
   if (!ok) {
     const sourceIds = parseSourceIds(raw);
     const body = stripPlainSources(raw);
@@ -468,16 +468,11 @@ function renderLawModal({ title, body, source_url, fallback_hint }) {
 
   const l = document.getElementById("lawModalLink");
 
-  // 1) 後端有給 source_url：直接用（最準）
-  let url = (source_url || "").trim();
-
-  // 2) 沒給：用 title / hint 去組 MOJ LawSingle / LawAll
-  if (!url) {
-    url = buildMojUrlFromHint(title) || buildMojUrlFromHint(fallback_hint);
-  }
-
-  // 3) 再不行：導到 MOJ 首頁
-  if (!url) url = "https://law.moj.gov.tw/";
+  let url =
+    (source_url || "").trim() ||
+    guessLawUrlFromText(title) ||
+    guessLawUrlFromText(fallback_hint) ||
+    "https://www.hcd.ca.gov/policy-and-research/accessory-dwelling-units";
 
   l.style.display = "inline-block";
   l.href = url;

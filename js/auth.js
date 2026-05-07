@@ -102,6 +102,25 @@ function openLoginModal() {
   modal.show();
 }
 
+function prefillLoginEmailFromQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const email = (params.get("email") || "").trim();
+  const emailInput = document.getElementById("loginEmail");
+
+  if (!email || !emailInput) return;
+
+  emailInput.value = email;
+
+  if (!getToken()) {
+    openLoginModal();
+  }
+
+  params.delete("email");
+  const query = params.toString();
+  const cleanUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+  window.history.replaceState({}, document.title, cleanUrl);
+}
+
 async function handleEmailLoginModal() {
   const email = document.getElementById("loginEmail").value.trim();
 
