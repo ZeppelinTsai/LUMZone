@@ -185,7 +185,7 @@ async function requestCode() {
 
     Swal.fire(
       "Code sent",
-      data.dev_code ? `Development test code: ${data.dev_code}` : "Please check your inbox",
+      "Please check your inbox",
       "success",
     );
 
@@ -282,17 +282,30 @@ async function refreshUser() {
   const token = getToken();
   if (!token) return null;
 
-  const res = await fetch(`${API_BASE}/api/auth/me`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  let res;
+  try {
+    res = await fetch(`${API_BASE}/api/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (err) {
+    console.warn("User refresh failed", err);
+    renderAuthState();
+    return getUser();
+  }
 
-  if (!res.ok) {
+  if (res.status === 401 || res.status === 403) {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem("lumzone_user");
     renderAuthState();
     return null;
+  }
+
+  if (!res.ok) {
+    console.warn("User refresh failed", res.status);
+    renderAuthState();
+    return getUser();
   }
 
   const data = await res.json();

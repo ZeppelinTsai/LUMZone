@@ -432,15 +432,23 @@
           submitBtn.textContent = "Submitting...";
 
           try {
-            await fetch("https://formspree.io/f/xkoyzedz", {
+            const res = await fetch("https://formspree.io/f/xkoyzedz", {
               method: "POST",
               body: formData,
               headers: {
                 Accept: "application/json",
               },
             });
+
+            if (!res.ok) {
+              throw new Error(`HTTP ${res.status}`);
+            }
           } catch (err) {
             console.warn("Formspree submit failed:", err);
+            alert("We could not join the waitlist right now. Please try again.");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Join Waitlist";
+            return;
           }
 
           const email = String(formData.get("email") || "").trim();

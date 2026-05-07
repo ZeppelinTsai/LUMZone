@@ -676,6 +676,9 @@ const STOPWORDS = new Set([
   "of",
   "to",
 ]);
+function escapeRegExp(text) {
+  return String(text).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 function highlight(text, keyword) {
   if (!text || !keyword) return text;
 
@@ -691,7 +694,7 @@ function highlight(text, keyword) {
   let result = safeText;
 
   keywords.forEach((kw) => {
-    const regex = new RegExp(`(${kw})`, "gi");
+    const regex = new RegExp(`(${escapeRegExp(kw)})`, "gi");
     result = result.replace(regex, `<mark>$1</mark>`);
   });
 

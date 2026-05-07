@@ -265,18 +265,18 @@ async function sendMessage() {
   }
 
   const sess = getSession(currentSessionId);
+  const history = sess.messages
+    .filter((m) => m.role === "user" || m.role === "assistant")
+    .slice(-5)
+    .map((m) => ({
+      role: m.role,
+      content: String(m.content || "").slice(0, 800),
+    }));
+
   sess.messages.push({ role: "user", content: text });
   sess.ts = Date.now();
   saveSessions();
   addMessage("user", text);
-
-  const history = sess.messages
-    .filter((m) => m.role === "user")
-    .slice(-4)
-    .map((m) => ({
-      role: "user",
-      content: m.content.slice(0, 300),
-    }));
 
   const typingEl = addMessage("ai", "", true);
 
@@ -289,6 +289,7 @@ async function sendMessage() {
       },
       body: JSON.stringify({
         query: text,
+        history,
         cand_topk: 10,
         max_src_tokens: 1800,
         max_each_tokens: 500,
