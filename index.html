@@ -384,13 +384,9 @@
           </p>
           <div class="row justify-content-center">
             <div class="col-lg-6">
-              <form action="https://formspree.io/f/xkoyzedz" method="POST">
+              <form id="waitlistForm">
                 <input type="hidden" name="source" value="landing-page-v1" />
-                <input
-                  type="hidden"
-                  name="_redirect"
-                  value="https://zeppelintsai.github.io/LUMZone/chat.html"
-                />
+
                 <div class="d-flex gap-3 flex-column flex-md-row mb-3">
                   <input
                     type="email"
@@ -422,5 +418,33 @@
       (c) 2026 LUMZone AI - California ADU zoning research. Informational only,
       not legal, architectural, or permit approval advice.
     </footer>
+    <script>
+      document
+        .getElementById("waitlistForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const form = e.target;
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const formData = new FormData(form);
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Submitting...";
+
+          try {
+            await fetch("https://formspree.io/f/xkoyzedz", {
+              method: "POST",
+              body: formData,
+              headers: {
+                Accept: "application/json",
+              },
+            });
+          } catch (err) {
+            console.warn("Formspree submit failed:", err);
+          }
+
+          window.location.href = "./chat.html";
+        });
+    </script>
   </body>
 </html>
