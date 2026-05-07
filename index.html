@@ -411,14 +411,28 @@
             <div class="col-lg-6">
               <form id="waitlistForm">
                 <input type="hidden" name="source" value="landing-page-v1" />
+
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="New California ADU Waitlist Submission"
+                />
+
+                <input
+                  type="hidden"
+                  name="_replyto"
+                  value=""
+                  id="replytoField"
+                />
+
                 <label class="form-label small text-white mb-1">
-                  Tell us what part of ADU or zoning research feels confusing or
-                  time-consuming.
+                  Optional: what's the hardest part of ADU research?
                 </label>
+
                 <textarea
                   name="pain_point"
                   class="form-control mb-3 feedback-box"
-                  placeholder="What's the most confusing part of ADU or zoning regulations?"
+                  placeholder="e.g. setbacks, permits, parking, garage conversion..."
                   rows="4"
                 ></textarea>
 
@@ -432,7 +446,7 @@
                   />
 
                   <button type="submit" class="btn btn-main">
-                    Join Waitlist
+                    Get Property Check
                   </button>
                 </div>
               </form>
@@ -454,6 +468,9 @@
 
           const form = e.target;
           const submitBtn = form.querySelector('button[type="submit"]');
+          document.getElementById("replytoField").value =
+            form.querySelector('[name="email"]').value;
+
           const formData = new FormData(form);
 
           submitBtn.disabled = true;
