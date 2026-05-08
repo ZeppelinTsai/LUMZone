@@ -990,6 +990,65 @@ mark {
   gap: 8px;
 }
 
+.professional-report-card {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid rgba(200, 82, 42, 0.28);
+  border-radius: 8px;
+  background: #fff7f4;
+  text-align: center;
+}
+
+.professional-report-kicker {
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.professional-report-card h6 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.professional-report-card p {
+  max-width: 520px;
+  margin: 0 auto 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.professional-report-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
+}
+
+.professional-report-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
 .speech-btn {
   display: inline-flex;
   align-items: center;

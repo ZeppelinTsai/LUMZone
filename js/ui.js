@@ -93,8 +93,15 @@ function loadSessionUI(id) {
   lastSourceBySid = new Map(Object.entries(sess.sources || {}));
   const msgs = document.getElementById("messages");
   msgs.innerHTML = "";
-  sess.messages.forEach((m) =>
-    addMessage(m.role === "assistant" ? "ai" : m.role, m.content),
+  const lastAssistantIndex = sess.messages
+    .map((m, index) => ({ role: m.role, index }))
+    .filter((m) => m.role === "assistant")
+    .at(-1)?.index;
+
+  sess.messages.forEach((m, index) =>
+    addMessage(m.role === "assistant" ? "ai" : m.role, m.content, false, "", {
+      showReportOffer: index === lastAssistantIndex,
+    }),
   );
   renderHistoryList();
 }
@@ -334,7 +341,134 @@ function confirmCancel() {
 }
 
 // ── addMessage ────────────────────────────────────────────────────────────────
-function addMessage(role, content, isTyping = false, keyword = "") {
+let pendingInterestProduct = "Professional Report";
+let pendingInterestSource = "ai_answer";
+
+function trackInterestEvent(eventName, payload = {}) {
+  const eventPayload = {
+    currency: "USD",
+    ...payload,
+  };
+
+  try {
+    const stored = JSON.parse(
+      localStorage.getItem("lumzone_interest_events") || "[]",
+    );
+    stored.push({
+      event: eventName,
+      ...eventPayload,
+      ts: new Date().toISOString(),
+    });
+    localStorage.setItem(
+      "lumzone_interest_events",
+      JSON.stringify(stored.slice(-50)),
+    );
+  } catch (err) {
+    console.warn("Interest event local log failed", err);
+  }
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, eventPayload);
+  } else {
+    console.info("GA event queued locally:", eventName, eventPayload);
+  }
+}
+
+function trackFakePayment(productName, source = "ai_answer") {
+  pendingInterestProduct = productName;
+  pendingInterestSource = source;
+
+  trackInterestEvent("fake_payment_interest", {
+    product_name: productName,
+    source,
+    value: productName === "Pro Plan" ? 19 : 29,
+  });
+
+  const modalTitle = document.getElementById("fakePaymentTitle");
+  const bodyTitle = document.getElementById("fakePaymentBodyTitle");
+  const bodyText = document.getElementById("fakePaymentBodyText");
+
+  if (modalTitle) modalTitle.textContent = `${productName} Interest Captured`;
+  if (bodyTitle) {
+    bodyTitle.textContent =
+      productName === "Pro Plan"
+        ? "Pro access is currently being prepared for beta testers."
+        : "Our automated reporting tool is currently undergoing a final regulatory update.";
+  }
+  if (bodyText) {
+    bodyText.textContent =
+      productName === "Pro Plan"
+        ? "Would you like us to notify you when Pro launches and give you a 50% early-user discount?"
+        : "Would you like us to notify you when it is ready and give you a 50% launch discount?";
+  }
+
+  const upgradeModalEl = document.getElementById("upgradeModal");
+  if (upgradeModalEl) bootstrap.Modal.getInstance(upgradeModalEl)?.hide();
+
+  const modalEl = document.getElementById("fakePaymentModal");
+  if (modalEl) bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+
+function trackReportNotifyInterest() {
+  trackInterestEvent("report_notify_interest", {
+    product_name: pendingInterestProduct,
+    source: `${pendingInterestSource}_notify`,
+  });
+
+  const modalEl = document.getElementById("fakePaymentModal");
+  bootstrap.Modal.getInstance(modalEl)?.hide();
+
+  Swal.fire({
+    icon: "success",
+    title: "You're on the list",
+    text:
+      pendingInterestProduct === "Pro Plan"
+        ? "We'll notify you when Pro access is ready."
+        : "We'll notify you when professional reports are ready.",
+    confirmButtonColor: "#c8522a",
+  });
+}
+
+function shouldShowProfessionalReportOffer(role, content, isTyping) {
+  if (role !== "ai" || isTyping) return false;
+
+  const text = String(content || "").trim();
+  if (text.length < 140) return false;
+
+  return !/connection error|server error|microphone access|beta limit/i.test(
+    text,
+  );
+}
+
+function createProfessionalReportCard() {
+  const card = document.createElement("div");
+  card.className = "professional-report-card";
+  card.innerHTML = `
+    <div class="professional-report-kicker">Human-Verified Add-On</div>
+    <h6>Need a Professional Feasibility Report?</h6>
+    <p>
+      Get a human-verified PDF report for this property including exact
+      setbacks, density limits, parking notes, and AB 1033 eligibility within
+      24 hours.
+    </p>
+    <button
+      type="button"
+      class="professional-report-btn"
+      onclick="trackFakePayment('Professional Report', 'ai_answer_card')"
+    >
+      Get Report - $29.00
+    </button>
+  `;
+  return card;
+}
+
+function addMessage(
+  role,
+  content,
+  isTyping = false,
+  keyword = "",
+  options = {},
+) {
   const msgs = document.getElementById("messages");
   const div = document.createElement("div");
   div.className = `message ${role}`;
@@ -392,6 +526,14 @@ function addMessage(role, content, isTyping = false, keyword = "") {
 
   div.appendChild(av);
   div.appendChild(bbl);
+
+  const showReportOffer = options.showReportOffer !== false;
+  if (
+    showReportOffer &&
+    shouldShowProfessionalReportOffer(role, content, isTyping)
+  ) {
+    bbl.appendChild(createProfessionalReportCard());
+  }
 
   if (
     role === "ai" &&
