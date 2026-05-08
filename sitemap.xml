@@ -1,71 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lum-zone.com/</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/index.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/san-diego-adu-setbacks.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/parking-near-transit.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/max-adu-size-san-diego.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/can-i-build-adu-san-diego-without-architect.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/san-diego-adu-height-limits-two-story.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/jadu-vs-adu-san-diego.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/sell-adu-separately-san-diego-ab-1033.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/san-diego-adu-fire-sprinkler-requirements.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/how-many-adus-one-lot-san-diego.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/los-angeles-adu-complete-guide.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/los-angeles-adu-size-limits.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/los-angeles-adu-parking-transit.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/garage-conversion-adu-los-angeles.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/los-angeles-adu-setback-rules.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://lum-zone.com/pages/articles/los-angeles-coastal-permit-adu.html</loc>
+    <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
