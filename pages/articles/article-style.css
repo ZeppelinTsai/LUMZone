@@ -121,6 +121,41 @@ ul {
   padding-left: 1.25rem;
 }
 
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 18px 0 4px;
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+  vertical-align: top;
+}
+
+.comparison-table th {
+  color: var(--ink);
+  background: var(--panel-soft);
+  font-weight: 800;
+}
+
+.comparison-table tr:last-child th,
+.comparison-table tr:last-child td {
+  border-bottom: 0;
+}
+
 .note {
   margin-top: 18px;
   padding: 14px 16px;

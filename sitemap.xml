@@ -5,7 +5,11 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://lum-zone.com/pages/articles/max-adu-size-san-diego.html</loc>
+    <loc>https://lum-zone.com/pages/articles/index.html</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/san-diego-adu-setbacks.html</loc>
     <changefreq>monthly</changefreq>
   </url>
   <url>
@@ -13,11 +17,55 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://lum-zone.com/pages/articles/san-diego-adu-setbacks.html</loc>
+    <loc>https://lum-zone.com/pages/articles/max-adu-size-san-diego.html</loc>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://lum-zone.com/pages/articles/san-diego-adu-setbacks.html</loc>
+    <loc>https://lum-zone.com/pages/articles/can-i-build-adu-san-diego-without-architect.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/san-diego-adu-height-limits-two-story.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/jadu-vs-adu-san-diego.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/sell-adu-separately-san-diego-ab-1033.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/san-diego-adu-fire-sprinkler-requirements.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/how-many-adus-one-lot-san-diego.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/los-angeles-adu-complete-guide.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/los-angeles-adu-size-limits.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/los-angeles-adu-parking-transit.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/garage-conversion-adu-los-angeles.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/los-angeles-adu-setback-rules.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://lum-zone.com/pages/articles/los-angeles-coastal-permit-adu.html</loc>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
