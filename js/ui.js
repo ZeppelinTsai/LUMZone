@@ -117,8 +117,7 @@ const CHAT_WELCOME_HTML = `
     <h1>California ADU & Zoning AI Assistant</h1>
 
     <p>
-      Ask focused ADU and zoning questions, then review structured answers
-      grounded in source citations.
+      Check California ADU feasibility using zoning-aware AI research.
     </p>
 
     <div class="welcome-section-title mb-3">
@@ -128,13 +127,13 @@ const CHAT_WELCOME_HTML = `
     <div class="suggestions">
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        Can I build an ADU on my property at [enter address]?
+        Can I build an ADU at 4121 33rd St, San Diego, CA?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
         What are the typical ADU setback rules in Los Angeles?
       </div>
-      
+
       <div class="suggestion-card" onclick="askSuggestion(this)">
         What zoning sources are relevant for ADU development in San Francisco?
       </div>
@@ -148,7 +147,7 @@ const CHAT_INPUT_HTML = `
     <div class="input-wrapper">
       <textarea
         id="userInput"
-        placeholder="Ask an ADU or zoning research question..."
+        placeholder="Ask about ADUs or enter a property address..."
         rows="1"
         onkeydown="handleKey(event)"
         oninput="autoResize(this)"
