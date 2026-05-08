@@ -121,40 +121,22 @@ const CHAT_WELCOME_HTML = `
       grounded in source citations.
     </p>
 
-    <div class="welcome-section-title">
-      Popular California ADU Questions
+    <div class="welcome-section-title mb-3">
+      Or just enter your address to get started:
     </div>
 
     <div class="suggestions">
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">1</span>
-        Can I build a detached ADU on a single-family lot in San Diego?
+        Can I build an ADU on my property at [enter address]?
       </div>
 
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">2</span>
         What are the typical ADU setback rules in Los Angeles?
       </div>
-
+      
       <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">3</span>
-        Does an ADU need parking if the property is near transit?
-      </div>
-
-      <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">4</span>
-        What height limits apply to a two-story ADU?
-      </div>
-
-      <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">5</span>
-        How do lot coverage and floor area limits affect ADU feasibility?
-      </div>
-
-      <div class="suggestion-card" onclick="askSuggestion(this)">
-        <span class="suggestion-icon">6</span>
-        Which city rules should I check before submitting an ADU permit?
+        What zoning sources are relevant for ADU development in San Francisco?
       </div>
 
     </div>
