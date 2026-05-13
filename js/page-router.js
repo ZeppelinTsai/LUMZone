@@ -82,7 +82,7 @@
         if (!this.normalizedQuery) return this.articles;
 
         return this.articles.filter((article) => {
-          return [article.title, article.desc, article.tag]
+          return [article.title, article.description, article.desc, article.tag]
             .filter(Boolean)
             .some((value) =>
               value.toString().toLowerCase().includes(this.normalizedQuery),
